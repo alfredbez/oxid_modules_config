@@ -1,7 +1,6 @@
 {
-  "name": "oxid-community/oxid_modules_config",
+  "name": "oxid-professional-services/oxid-modules-config",
   "description": "OXID core and module configurations importer and exporter",
-  "version":  "1.0.0",
   "type": "oxideshop-module",
   "keywords": ["oxid", "modules", "eShop", "oxconfig", "config", "export"],
   "license": "GPL-3.0",
