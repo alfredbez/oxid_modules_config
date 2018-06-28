@@ -23,13 +23,16 @@
  * @link          http://www.oxid-esales.com
  * @copyright (C) OXID eSales AG 2003-2014
  */
+
+namespace OxidProfessionalServices\ModulesConfig\Core;
+
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class oxpsModulesConfigConfigExport
- * Implements functionality for the oxpsConfigExportCommand
+ * Class ConfigExport
+ * Implements functionality for the ExportCommand
  */
-class oxpsModulesConfigConfigExport extends OxpsConfigCommandBase
+class ConfigExport extends CommandBase
 {
 
     /**

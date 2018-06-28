@@ -24,14 +24,21 @@
  * @copyright (C) OXID eSales AG 2003-2014
  */
 
+namespace OxidProfessionalServices\ModulesConfig\Controller\Admin;
+
+use OxidProfessionalServices\ModulesConfig\Model\Content;
+use OxidProfessionalServices\ModulesConfig\Core\RequestValidator;
+use OxidProfessionalServices\ModulesConfig\Core\ConfigTransfer;
+use OxidProfessionalServices\ModulesConfig\Core\Module;
+
 /**
- * Class Admin_oxpsModulesConfigDashboard
+ * Class Dashboard
  * Modules configuration export, backup and import tools controller.
  *
  * @todo: Add a checkbox for import force (ignores shop versions, edition and ID differences)
  * @todo: Add checkbox for ALL sub-shops export / import.
  */
-class Admin_oxpsModulesConfigDashboard extends oxAdminView
+class Dashboard extends oxAdminView
 {
 
     /**
@@ -59,7 +66,7 @@ class Admin_oxpsModulesConfigDashboard extends oxAdminView
     /**
      * Data validation instance.
      *
-     * @var null|oxpsModulesConfigRequestValidator
+     * @var null|RequestValidator
      */
     protected $_oValidator = null;
 
@@ -71,8 +78,8 @@ class Admin_oxpsModulesConfigDashboard extends oxAdminView
      */
     public function getModulesList()
     {
-        /** @var oxpsModulesConfigContent $oContent */
-        $oContent = oxRegistry::get('oxpsModulesConfigContent');
+        /** @var Content $oContent */
+        $oContent = oxRegistry::get(Content::class);
 
         return (array) $oContent->getModulesList();
     }
@@ -84,8 +91,8 @@ class Admin_oxpsModulesConfigDashboard extends oxAdminView
      */
     public function getSettingsList()
     {
-        /** @var oxpsModulesConfigContent $oContent */
-        $oContent = oxRegistry::get('oxpsModulesConfigContent');
+        /** @var Content $oContent */
+        $oContent = oxRegistry::get(Content::class);
 
         return (array) $oContent->getSettingsList();
     }
@@ -133,12 +140,12 @@ class Admin_oxpsModulesConfigDashboard extends oxAdminView
     /**
      * Get data validation instance.
      *
-     * @return oxpsModulesConfigRequestValidator
+     * @return RequestValidator
      */
     public function getValidator()
     {
         if (is_null($this->_oValidator)) {
-            $this->_oValidator = oxRegistry::get('oxpsModulesConfigRequestValidator');
+            $this->_oValidator = oxRegistry::get(RequestValidator::class);
         }
 
         return $this->_oValidator;
@@ -267,8 +274,8 @@ class Admin_oxpsModulesConfigDashboard extends oxAdminView
      */
     protected function _exportModulesConfig(array $aData)
     {
-        /** @var oxpsModulesConfigTransfer $oModulesConfig */
-        $oModulesConfig = oxNew('oxpsModulesConfigTransfer');
+        /** @var ConfigTransfer $oModulesConfig */
+        $oModulesConfig = oxNew(ConfigTransfer::class);
         $oModulesConfig->exportForDownload($aData);
 
         $this->getValidator()->addError('OXPS_MODULESCONFIG_ERR_EXPORT_FAILED');
@@ -284,8 +291,8 @@ class Admin_oxpsModulesConfigDashboard extends oxAdminView
      */
     protected function _backupModuleSettings(array $aData, $sBackupFileSuffix = '')
     {
-        /** @var oxpsModulesConfigTransfer $oModulesConfig */
-        $oModulesConfig = oxNew('oxpsModulesConfigTransfer');
+        /** @var ConfigTransfer $oModulesConfig */
+        $oModulesConfig = oxNew(ConfigTransfer::class);
 
         if (!$oModulesConfig->backupToFile($aData, $sBackupFileSuffix)) {
             $this->getValidator()->addError('OXPS_MODULESCONFIG_ERR_BACKUP_FAILED');
@@ -330,15 +337,15 @@ class Admin_oxpsModulesConfigDashboard extends oxAdminView
      */
     protected function _runModulesConfigImport(array $aRequestData, array $aImportData)
     {
-        /** @var oxpsModulesConfigTransfer $oModulesConfig */
-        $oModulesConfig = oxNew('oxpsModulesConfigTransfer');
+        /** @var ConfigTransfer $oModulesConfig */
+        $oModulesConfig = oxNew(ConfigTransfer::class);
         $oModulesConfig->setImportDataFromFile($aImportData);
 
         if (!$oModulesConfig->importData($aRequestData)) {
             $this->getValidator()->addErrors((array) $oModulesConfig->getImportErrors());
         } else {
             $this->addMessage('OXPS_MODULESCONFIG_MSG_IMPORT_SUCCESS');
-            oxpsModulesConfigModule::clearTmp();
+            Module::clearTmp();
         }
     }
 }

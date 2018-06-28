@@ -20,7 +20,11 @@
  * @copyright (C) OXID eSales AG 2003-2015
  */
 
-class OxpsConfigExportCommand extends oxConsoleCommand
+namespace OxidProfessionalServices\ModulesConfig\Command;
+
+use OxidProfessionalServices\ModulesConfig\Core\ConfigExport;
+
+class ExportCommand extends oxConsoleCommand
 {
 
     /**
@@ -55,7 +59,7 @@ class OxpsConfigExportCommand extends oxConsoleCommand
     public function execute(oxIOutput $oOutput)
     {
         $oInput        = $this->getInput();
-        $oConfigExport = oxNew('oxpsModulesConfigConfigExport', $oOutput, $oInput);
+        $oConfigExport = oxNew(ConfigExport::class, $oOutput, $oInput);
         $oConfigExport->executeConsoleCommand();
     }
 

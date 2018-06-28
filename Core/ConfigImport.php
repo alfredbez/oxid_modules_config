@@ -24,11 +24,13 @@
  * @copyright (C) OXID eSales AG 2003-2014
  */
 
+namespace OxidProfessionalServices\ModulesConfig\Core;
+
 /**
- * Class oxpsModulesConfigConfigImport
- * Implements functionality for the oxpsConfigImportCommand
+ * Class ConfigImport
+ * Implements functionality for the ImportCommand
  */
-class oxpsModulesConfigConfigImport extends OxpsConfigCommandBase
+class ConfigImport extends CommandBase
 {
 
     /**

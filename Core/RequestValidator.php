@@ -24,11 +24,15 @@
  * @copyright (C) OXID eSales AG 2003-2014
  */
 
+namespace OxidProfessionalServices\ModulesConfig\Core;
+
+use OxidProfessionalServices\ModulesConfig\Model\Content;
+
 /**
- * Class oxpsModulesConfigRequestValidator
+ * Class RequestValidator
  * Modules configuration data validation and error handler.
  */
-class oxpsModulesConfigRequestValidator extends oxSuperCfg
+class RequestValidator extends oxSuperCfg
 {
 
     /**
@@ -147,8 +151,8 @@ class oxpsModulesConfigRequestValidator extends oxSuperCfg
      */
     protected function _checkIfModulesAreAvailable(array $aModules)
     {
-        /** @var oxpsModulesConfigContent $oContent */
-        $oContent = oxRegistry::get('oxpsModulesConfigContent');
+        /** @var Content $oContent */
+        $oContent = oxRegistry::get(Content::class);
         $aValidModules = $oContent->getModulesList();
 
         foreach ($aModules as $sModule) {
@@ -182,8 +186,8 @@ class oxpsModulesConfigRequestValidator extends oxSuperCfg
      */
     protected function _checkIfSettingsAreAvailable(array $aSettings)
     {
-        /** @var oxpsModulesConfigContent $oContent */
-        $oContent = oxRegistry::get('oxpsModulesConfigContent');
+        /** @var Content $oContent */
+        $oContent = oxRegistry::get(Content::class);
         $aValidSettings = $oContent->getSettingsList();
 
         foreach ($aSettings as $sSettings) {
@@ -295,8 +299,8 @@ class oxpsModulesConfigRequestValidator extends oxSuperCfg
     {
         if (!$this->getErrors()) {
 
-            /** @var oxpsModulesConfigTransfer $oModulesConfig */
-            $oModulesConfig = oxNew('oxpsModulesConfigTransfer');
+            /** @var ConfigTransfer $oModulesConfig */
+            $oModulesConfig = oxNew(ConfigTransfer::class);
             $oModulesConfig->setImportDataFromFile($aFileData);
 
             $this->addErrors((array) $oModulesConfig->getImportDataValidationErrors());

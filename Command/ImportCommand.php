@@ -20,11 +20,11 @@
  * @copyright (C) OXID eSales AG 2003-2015
  */
 
+namespace OxidProfessionalServices\ModulesConfig\Command;
 
-/**
- * Class OxpsConfigImportCommandBase
- */
-class OxpsConfigImportCommand extends oxConsoleCommand
+use OxidProfessionalServices\ModulesConfig\Core\ConfigImport;
+
+class ImportCommand extends oxConsoleCommand
 {
 
     /**
@@ -59,7 +59,7 @@ class OxpsConfigImportCommand extends oxConsoleCommand
     public function execute(oxIOutput $oOutput)
     {
         $oInput        = $this->getInput();
-        if (!class_exists('oxpsModulesConfigConfigImport')) {
+        if (!class_exists(ConfigImport::class)) {
             $oOutput->writeLn('Config importer is not active trying to activate...');
             $oModuleInstaller = oxRegistry::get('oxModuleInstaller');
             $oxModuleList = oxNew('oxModuleList');
@@ -73,7 +73,7 @@ class OxpsConfigImportCommand extends oxConsoleCommand
             $utilsObject = oxUtilsObject::getInstance();
             $utilsObject->setModuleVar('aModuleFiles',null);
         }
-        $oConfigExport = oxNew('oxpsModulesConfigConfigImport', $oOutput, $oInput);
+        $oConfigExport = oxNew(ConfigImport::class, $oOutput, $oInput);
         $oConfigExport->executeConsoleCommand();
     }
 

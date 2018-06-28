@@ -24,11 +24,13 @@
  * @copyright (C) OXID eSales AG 2003-2014
  */
 
+namespace OxidProfessionalServices\ModulesConfig\Model;
+
 /**
- * Class oxpsModulesConfigContent
+ * Class Content
  * Module configuration import and export content handler defines what data is used in the processes.
  */
-class oxpsModulesConfigContent extends oxSuperCfg
+class Content extends oxSuperCfg
 {
 
     /**

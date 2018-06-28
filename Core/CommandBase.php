@@ -1,11 +1,10 @@
 <?php
 
+namespace OxidProfessionalServices\ModulesConfig\Core;
+
 use Symfony\Component\Yaml\Yaml;
 
-/**
- *  Class OxpsConfigCommandBase:
- */
-abstract class OxpsConfigCommandBase
+abstract class CommandBase
 {
 
     /**
@@ -54,7 +53,7 @@ abstract class OxpsConfigCommandBase
     protected $oDebugOutput;
 
     /**
-     * OxpsConfigCommandBase constructor.
+     * CommandBase constructor.
      *
      * @param oxIOutput       $oOutput
      * @param oxIConsoleInput $oInput

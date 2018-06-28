@@ -24,13 +24,17 @@
  * @copyright (C) OXID eSales AG 2003-2014
  */
 
+namespace OxidProfessionalServices\ModulesConfig\Core;
+
+use OxidProfessionalServices\ModulesConfig\Model\Storage;
+
 /**
- * Class oxpsModulesConfigTransfer
+ * Class ConfigTransfer
  * Modules configuration export, backup and import actions handler.
  *
  * @todo: Collect JSON encode/decode errors from json_last_error()?
  */
-class oxpsModulesConfigTransfer extends oxSuperCfg
+class ConfigTransfer extends oxSuperCfg
 {
 
     /**
@@ -116,8 +120,8 @@ class oxpsModulesConfigTransfer extends oxSuperCfg
      */
     public function getImportDataValidationErrors()
     {
-        /** @var oxpsModulesConfigJsonValidator $oImportDataValidator */
-        $oImportDataValidator = oxRegistry::get('oxpsModulesConfigJsonValidator');
+        /** @var JsonValidator $oImportDataValidator */
+        $oImportDataValidator = oxRegistry::get(JsonValidator::class);
         $oImportDataValidator->init($this->getImportData(), $this->_getSettingsDataHeader());
 
         return (array) $oImportDataValidator->validateJsonData();
@@ -375,8 +379,8 @@ class oxpsModulesConfigTransfer extends oxSuperCfg
      */
     protected function _getSettingValue($sModuleId, $sSetting)
     {
-        /** @var oxpsModulesConfigStorage $oConfigurationStorage */
-        $oConfigurationStorage = oxRegistry::get('oxpsModulesConfigStorage');
+        /** @var Storage $oConfigurationStorage */
+        $oConfigurationStorage = oxRegistry::get(Storage::class);
 
         return $oConfigurationStorage->load($sModuleId, $sSetting);
     }
@@ -391,8 +395,8 @@ class oxpsModulesConfigTransfer extends oxSuperCfg
      */
     protected function _setSettingValue($sModuleId, $sSetting, $mValue)
     {
-        /** @var oxpsModulesConfigStorage $oConfigurationStorage */
-        $oConfigurationStorage = oxRegistry::get('oxpsModulesConfigStorage');
+        /** @var Storage $oConfigurationStorage */
+        $oConfigurationStorage = oxRegistry::get(Storage::class);
 
         $oConfigurationStorage->save($sModuleId, $sSetting, $mValue);
     }
