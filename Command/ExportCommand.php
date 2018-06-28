@@ -22,45 +22,41 @@
 
 namespace OxidProfessionalServices\ModulesConfig\Command;
 
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use OxidProfessionalServices\ModulesConfig\Core\ConfigExport;
 
-class ExportCommand extends oxConsoleCommand
+class ExportCommand extends Command
 {
-
     /**
      * {@inheritdoc}
      */
     public function configure()
     {
-        $this->setName('config:export');
-        $this->setDescription('Export shop config');
+        $this
+            ->setName('config:export')
+            ->setDescription('Export shop config')
+            ->addOption(
+                'env',
+                'e',
+                InputOption::VALUE_REQUIRED,
+                "Environment to execute in"
+            )->addOption(
+                'force-cleanup',
+                'f',
+                InputOption::VALUE_NONE,
+                "Force clean-up"
+            );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function help(oxIOutput $oOutput)
+    public function execute(InputInterface $input, OutputInterface $output)
     {
-        $oOutput->writeLn('Usage: config:export [options]');
-        $oOutput->writeLn();
-        $oOutput->writeLn('This command export shop config');
-        $oOutput->writeLn();
-        $oOutput->writeLn('Available options:');
-        $oOutput->writeLn('  -n, --no-debug     No debug output');
-        $oOutput->writeLn('  --env=ENVIRONMENT  Environment');
-        //TODO: $oOutput->writeLn('  --shop=SHOPID      Shop');
-    }
-
-    /**
-     * Execute current command
-     *
-     * @param oxIOutput $oOutput
-     */
-    public function execute(oxIOutput $oOutput)
-    {
-        $oInput        = $this->getInput();
-        $oConfigExport = oxNew(ConfigExport::class, $oOutput, $oInput);
+        $oConfigExport = oxNew(ConfigExport::class, $output, $input);
         $oConfigExport->executeConsoleCommand();
     }
-
 }

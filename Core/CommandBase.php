@@ -3,24 +3,26 @@
 namespace OxidProfessionalServices\ModulesConfig\Core;
 
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\NullOutput;
 
 abstract class CommandBase
 {
-
     /**
      * @var string The environment we are working on.
      */
     protected $sEnv = null;
 
     /**
-     * @var oxIOutput $oOutput The output stream, where to write the configuration.
+     * @var OutputInterface $output The output stream, where to write the configuration.
      */
-    protected $oOutput;
+    protected $output;
 
     /*
-     * @var oxIConsoleInput $oInput The input stream with arguments
+     * @var InputInterface $oInput The input stream with arguments
      */
-    protected $oInput;
+    protected $input;
 
     /**
      * @var array Configuration loaded from file
@@ -48,20 +50,20 @@ abstract class CommandBase
     protected $sNameForGeneralShopSettings = "GeneralShopSettings";
 
     /**
-     * @var oxIOutput
+     * @var OutputInterface
      */
-    protected $oDebugOutput;
+    protected $debugOutput;
 
     /**
      * CommandBase constructor.
      *
-     * @param oxIOutput       $oOutput
-     * @param oxIConsoleInput $oInput
+     * @param OutputInterface $output
+     * @param InputInterface  $input
      */
-    public function __construct(oxIOutput $oOutput, oxIConsoleInput $oInput)
+    public function __construct(OutputInterface $output, InputInterface $input)
     {
-        $this->oOutput = $oOutput;
-        $this->oInput  = $oInput;
+        $this->input = $input;
+        $this->output = $output;
     }
 
     /**
@@ -69,8 +71,8 @@ abstract class CommandBase
      */
     protected function init()
     {
-        if ($this->oInput->hasOption('env')) {
-            $this->sEnv = $this->oInput->getOption('env');
+        if ($this->input->getOption('env')) {
+            $this->sEnv = $this->input->getOption('env');
         } else {
             $this->sEnv = 'development';
         }
@@ -109,7 +111,7 @@ abstract class CommandBase
                 $sDir = $this->getConfigDir() . '/' . $this->sEnv;
             }
             if (!is_readable($sDir)) {
-                $this->oOutput->writeLn('There is no such ' . $sDir . ' config dir. stopping');
+                $this->output->writeLn('There is no such ' . $sDir . ' config dir. stopping');
                 exit;
             }
         }
@@ -133,7 +135,7 @@ abstract class CommandBase
      * It is been done only once. It will be stored as object property
      * after first call and will return it.
      *
-     * @throws oxFileException
+     * @throws \oxFileException
      *
      */
     protected function initConfiguration()
@@ -171,14 +173,14 @@ abstract class CommandBase
     /**
      * @return string
      *
-     * @throws oxFileException
+     * @throws \oxFileException
      */
     protected function _getModuleSettingsFilePath()
     {
         $sConfigurationDirectoryPath = $this->_getConfigurationDirectoryPath();
         $sModuleSettingsFilePath     = $sConfigurationDirectoryPath . 'oxpsconfigmodulesettings.php';
         if (!is_file($sModuleSettingsFilePath) || !is_readable($sModuleSettingsFilePath)) {
-            /** @var oxFileException $oEx */
+            /** @var \oxFileException $oEx */
             $oEx = oxNew('oxFileException');
             $oEx->setMessage("Requested file does not exist: " . $sModuleSettingsFilePath);
             throw $oEx;
@@ -190,7 +192,7 @@ abstract class CommandBase
     /**
      * @return string
      *
-     * @throws oxFileException
+     * @throws \oxFileException
      */
     protected function _getConfigurationDirectoryPath()
     {
@@ -211,7 +213,7 @@ abstract class CommandBase
         }
         $sPathToModuleSettingsFile = $sPathToThisModule . $sRelativeConfigurationDirectoryPath . DIRECTORY_SEPARATOR;
         if (!is_dir($sPathToModuleSettingsFile)) {
-            /** @var oxFileException $oEx */
+            /** @var \oxFileException $oEx */
             $oEx = oxNew("oxFileException");
             $oEx->setMessage("Requested directory does not exist: " . $sPathToModuleSettingsFile);
             throw $oEx;
@@ -225,18 +227,18 @@ abstract class CommandBase
      */
     protected function setDebugOutput()
     {
-        $oDebugOutput       = $this->oInput->hasOption(array('n', 'no-debug')) ? oxNew('oxNullOutput') : $this->oOutput;
-        $this->oDebugOutput = $oDebugOutput;
+        $oDebugOutput       = $this->input->hasOption('v') ? $this->output : oxNew(NullOutput::class);
+        $this->debugOutput = $oDebugOutput;
     }
 
     /**
      * Getter for the debug output stream.
      *
-     * @return oxIOutput
+     * @return OutputInterface
      */
     protected function getDebugOutput()
     {
-        return $this->oDebugOutput;
+        return $this->debugOutput;
     }
 
     /**
@@ -273,7 +275,7 @@ abstract class CommandBase
      */
     protected function readConfigValues($sFileName, $sType = null)
     {
-        $this->oOutput->writeLn("Reading shop config file $sFileName");
+        $this->output->writeLn("Reading shop config file $sFileName");
 
         if ($sType == null) {
             $sType = $this->aConfiguration['type'];
@@ -284,7 +286,7 @@ abstract class CommandBase
             $aResults = json_decode($sFileContent, true);
             $error    = json_last_error();
             if ($error !== JSON_ERROR_NONE) {
-                throw new Exception("invalid JSON in $sFileName $error");
+                throw new \Exception("invalid JSON in $sFileName $error");
             }
         } elseif ($sType == 'yaml') {
             $aResults = Yaml::parse($sFileContent);

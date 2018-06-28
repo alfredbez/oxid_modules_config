@@ -22,58 +22,50 @@
 
 namespace OxidProfessionalServices\ModulesConfig\Command;
 
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use OxidProfessionalServices\ModulesConfig\Core\ConfigImport;
 
-class ImportCommand extends oxConsoleCommand
+class ImportCommand extends Command
 {
-
     /**
      * {@inheritdoc}
      */
     public function configure()
     {
-        $this->setName('config:import');
-        $this->setDescription('Import shop config');
+        $this
+            ->setName('config:import')
+            ->setDescription('Import shop config')
+            ->addOption(
+                'env',
+                'e',
+                InputOption::VALUE_REQUIRED,
+                "Environment to execute in"
+            );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function help(oxIOutput $oOutput)
+    public function execute(InputInterface $input, OutputInterface $output)
     {
-        $oOutput->writeLn('Usage: config:import [options]');
-        $oOutput->writeLn();
-        $oOutput->writeLn('This command imports shop config');
-        $oOutput->writeLn();
-        $oOutput->writeLn('Available options:');
-        $oOutput->writeLn('  -n, --no-debug     No debug output');
-        $oOutput->writeLn('  --env=ENVIRONMENT  Environment');
-        //TODO: $oOutput->writeLn('  --shop=SHOPID      Shop');
-    }
-
-    /**
-     * Execute current command
-     *
-     * @param oxIOutput $oOutput
-     */
-    public function execute(oxIOutput $oOutput)
-    {
-        $oInput        = $this->getInput();
         if (!class_exists(ConfigImport::class)) {
-            $oOutput->writeLn('Config importer is not active trying to activate...');
-            $oModuleInstaller = oxRegistry::get('oxModuleInstaller');
+            $output->writeLn('Config importer is not active trying to activate...');
+            $oModuleInstaller = \oxRegistry::get('oxModuleInstaller');
             $oxModuleList = oxNew('oxModuleList');
-            $oxModuleList->getModulesFromDir(oxRegistry::getConfig()->getModulesDir());
+            $oxModuleList->getModulesFromDir(\oxRegistry::getConfig()->getModulesDir());
             $aModules = $oxModuleList->getList();
-            /** @var oxModule $oModule */
+            /** @var \oxModule $oModule */
             $oModule = $aModules['oxpsmodulesconfig'];
             $oModuleInstaller->activate($oModule);
 
             //workaround for issue in oxid see https://github.com/OXID-eSales/oxideshop_ce/pull/413
-            $utilsObject = oxUtilsObject::getInstance();
+            $utilsObject = \oxUtilsObject::getInstance();
             $utilsObject->setModuleVar('aModuleFiles',null);
         }
-        $oConfigExport = oxNew(ConfigImport::class, $oOutput, $oInput);
+        $oConfigExport = oxNew(ConfigImport::class, $output, $input);
         $oConfigExport->executeConsoleCommand();
     }
 

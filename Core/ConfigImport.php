@@ -107,7 +107,7 @@ class ConfigImport extends CommandBase
             $aResult = $this->merge_config($aResult, $aEnvConfig);
         }
 
-        $this->oOutput->writeLn("Importing config for shop $sShop");
+        $this->output->writeLn("Importing config for shop $sShop");
 
         $this->importConfigValues($aResult);
     }
@@ -140,13 +140,13 @@ class ConfigImport extends CommandBase
                             $mOverriderValue = array_merge($aBaseValue, $mOverriderValue);
                         }
                     } else {
-                        $this->oOutput->writeLn(
+                        $this->output->writeLn(
                             "ERROR: Ignoring corrupted common config value '$key':'$aBaseValue' for shop " . $this->sShopId
                         );
                     }
                 }
             } else {
-                $this->oOutput->writeLn(
+                $this->output->writeLn(
                     "ERROR: Skipping corrupted config value '$key':'$mOverriderValue' for shop " . $this->sShopId
                 );
                 continue;
@@ -168,7 +168,7 @@ class ConfigImport extends CommandBase
         $oShop = oxNew("oxshop");
         $sShopId = $this->sShopId;
         if (!$oShop->load($sShopId)) {
-            $this->oOutput->writeLn("[WARN] Creating new shop $sShopId");
+            $this->output->writeLn("[WARN] Creating new shop $sShopId");
             $oShop->setId($sShopId);
             $oConfig = ShopConfig::get(1);
             $oConfig->saveShopConfVar(
@@ -238,11 +238,11 @@ class ConfigImport extends CommandBase
             if ($oldVersion != $newVersion) {
                 $updatedModules[$sModuleId] = $sModuleId;
                 if (isset($oldVersion)) {
-                    $this->oOutput->writeLn(
+                    $this->output->writeLn(
                         "[INFO] {$sModuleId} has a different version ($oldVersion vs $newVersion) disabling it, so it can do updates"
                     );
                 } else {
-                    $this->oOutput->writeLn(
+                    $this->output->writeLn(
                         "[NOTE] {$sModuleId} $newVersion is new"
                     );
                 }
@@ -266,7 +266,7 @@ class ConfigImport extends CommandBase
 
         foreach ($notLoadedModules as $sModuleId) {
             if (!$oModule->load($sModuleId)) {
-                $this->oOutput->writeLn(
+                $this->output->writeLn(
                     "[WARN] can not load {$sModuleId} given in yaml, please make a fresh export without that module"
                 );
             }
@@ -284,13 +284,13 @@ class ConfigImport extends CommandBase
                 $isDisabled = array_search($sModuleId,$aDisabledModules);
                 if (!$oModule->load($sModuleId)) {
                     unset ($aModulePathsClean[$sModuleId]);
-                    $this->oOutput->writeLn(
+                    $this->output->writeLn(
                         "[WARN] {$sModuleId} it is not part of the import but, not installed physically, but somehow registered; removing it from modulePath array."
                     );
                     $oConfig->saveShopConfVar('aarr','aModulePaths',$aModulePathsClean);
                 }
                 if (!$isDisabled) {
-                    $this->oOutput->writeLn(
+                    $this->output->writeLn(
                         "[WARN] disabling {$sModuleId} because it is not part of the import but installed on this system, please create a new export"
                     );
                     $aDisabledModules[] = $sModuleId;
@@ -301,7 +301,7 @@ class ConfigImport extends CommandBase
 
         foreach ($aModuleVersions as $sModuleId => $sVersion) {
             if (!$oModule->load($sModuleId)) {
-                $this->oOutput->writeLn(
+                $this->output->writeLn(
                     "[ERROR] can not load {$sModuleId} given in importfile shop{$sShopId}.yaml in aModuleVersions please check if it is installed and working"
                 );
                 continue;
@@ -312,7 +312,7 @@ class ConfigImport extends CommandBase
                 $wasDeactivatedBeforeImport = isset($modulesKnownBeforeImport[$sModuleId]) && isset($disabledModulesBeforeImport[$sModuleId]);
                 $wasUnknownBeforeImport = !isset($modulesKnownBeforeImport[$sModuleId]);
                 if ($wasDeactivatedBeforeImport || $wasUnknownBeforeImport) {
-                    $this->oOutput->writeLn(
+                    $this->output->writeLn(
                         "[INFO] activating module $sModuleId"
                     );
                     if ($oModuleStateFixer != null) {
@@ -343,7 +343,7 @@ class ConfigImport extends CommandBase
 
             $sCurrentVersion = $oModule->getInfo("version");
             if ($sCurrentVersion != $sVersion) {
-                $this->oOutput->writeLn(
+                $this->output->writeLn(
                     "[WARN] {$sModuleId} version on export" .
                     " $sVersion vs current version $sCurrentVersion please create a fresh export"
                 );
@@ -543,7 +543,7 @@ class ConfigImport extends CommandBase
             if($existsAlsoInGlobalNameSpace = $this->getShopConfType($sVarName,'')) {
                 $db = \oxDb::getDb();
                 $db->execute("DELETE FROM oxconfig WHERE oxshopid = ? AND oxvarname = ? AND oxmodule = ''",[$this->sShopId,$sVarName]);
-                $this->oOutput->writeLn("the config value $sVarName from module $sSectionModule was delete from global namespace");
+                $this->output->writeLn("the config value $sVarName from module $sSectionModule was delete from global namespace");
             }
         }
     }

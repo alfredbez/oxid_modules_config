@@ -167,7 +167,7 @@ class ConfigExport extends CommandBase
         $oDebugOutput = $this->getDebugOutput();
         $sSql         = "DELETE FROM oxconfig WHERE oxmodule = 'module:{$sModuleId}'";
         $sSql2        = "DELETE FROM oxtplblocks WHERE oxmodule = '{$sModuleId}'";
-        $blForceClean = $this->oInput->getOption('force-cleanup');
+        $blForceClean = $this->input->hasOption('force-cleanup');
         //TODO add option force-repaire and repair module path to be sure module realy not exists
         if ($blForceClean) {
             //TODO $blForceClean should also call force-repaire and repair module path to be sure module realy not exists
@@ -214,7 +214,7 @@ class ConfigExport extends CommandBase
                         if (array_key_exists($sVarName, $aGeneralConfig)) {
                             //if a module safe a value twice once in module namespace and once in general namespace only export the value from the
                             //modulename space because it this happens only when the config table has some corrupted data
-                            $this->oOutput->writeLn(
+                            $this->output->writeLn(
                                 "$sVarName from module $sModuleId is also configured in global namespace in shop $sShopId"
                             );
                             unset($aGeneralConfig[$sVarName]);
@@ -290,7 +290,7 @@ class ConfigExport extends CommandBase
 
             if (in_array($sVarName, array('aDisabledModules'))) {
                 if ($sVarType !== 'arr') {
-                    $this->oOutput->writeLn(
+                    $this->output->writeLn(
                         "[warning] $sVarName corrupted vartype: '$sVarType' converted to arr (shop: $sShopId)"
                     );
                     $sVarType = 'arr';
@@ -300,7 +300,7 @@ class ConfigExport extends CommandBase
             if (in_array($sVarType, array('aarr', 'arr'))) {
                 $mVarValue = unserialize($mVarValue);
                 if (!is_array($mVarValue)) {
-                    $this->oOutput->writeLn(
+                    $this->output->writeLn(
                         "[warning] $sVarName is not array: '$mVarValue' convert to empty array (shop: $sShopId)"
                     );
                     $mVarValue = array();
@@ -352,7 +352,7 @@ class ConfigExport extends CommandBase
                     $oModule = oxNew('oxModule');
                     foreach ($mVarValue as $sModuleId => $sVersion) {
                         if (!$oModule->load($sModuleId)) {
-                            $oOutput = $this->oOutput;
+                            $oOutput = $this->output;
                             $oOutput->writeLn(
                                 "[ERROR] config for {$sModuleId} will not be included in export for shop $sShopId because module can not be loaded.
                             This can be caused by invalid setting in aModuleVersion config setting, and by fixed be import that config"
@@ -382,7 +382,7 @@ class ConfigExport extends CommandBase
                     $aGroupedValues[$sShopId][$sSection][$sModule][$sVarName] =
                         $mVarValue;
                 } else {
-                    $this->oOutput->writeLn(
+                    $this->output->writeLn(
                         "incompatible section '$sSection' found ignoring config value '$sVarName'
                     use sql: DELETE FROM oxconfig WHERE oxmodule = '$sSection' to clean up if it is trash.;
                     "
