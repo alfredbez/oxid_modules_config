@@ -26,6 +26,9 @@
 
 namespace OxidProfessionalServices\ModulesConfig\Core;
 
+use OxidProfessionalServices\OxidConsole\Core\Module\ModuleStateFixer;
+use OxidProfessionalServices\OxidConsole\Core\ShopConfig;
+
 /**
  * Class ConfigImport
  * Implements functionality for the ImportCommand
@@ -73,7 +76,7 @@ class ConfigImport extends CommandBase
             $this->getDebugOutput()->writeLn("Could not complete");
             $this->getDebugOutput()->writeLn($oEx->getMessage());
             exit(2);
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $this->getDebugOutput()->writeLn("Could not complete.");
             $this->getDebugOutput()->writeLn($e->getMessage());
             $this->getDebugOutput()->writeLn($e->getTraceAsString());
@@ -87,7 +90,7 @@ class ConfigImport extends CommandBase
      * @param $sShop
      * @param $sRelativeFileName
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function runShopConfigImportForOneShop($sShop, $sRelativeFileName)
     {
@@ -167,7 +170,7 @@ class ConfigImport extends CommandBase
         if (!$oShop->load($sShopId)) {
             $this->oOutput->writeLn("[WARN] Creating new shop $sShopId");
             $oShop->setId($sShopId);
-            $oConfig = oxSpecificShopConfig::get(1);
+            $oConfig = ShopConfig::get(1);
             $oConfig->saveShopConfVar(
                 'arr',
                 'aModules',
@@ -209,7 +212,7 @@ class ConfigImport extends CommandBase
         $sShopId = $this->sShopId;
         $this->importShopsConfig($aConfigValues);
 
-        $oConfig = oxSpecificShopConfig::get($sShopId);
+        $oConfig = ShopConfig::get($sShopId);
         $this->oConfig = $oConfig;
         oxRegistry::set('oxConfig',$oConfig);
 
@@ -220,18 +223,11 @@ class ConfigImport extends CommandBase
 
         $aModuleVersions = $this->getConfigValue($aConfigValues,'aModuleVersions');
 
-        if (class_exists('oxModuleStateFixer')) {
-            //since 5.2 we have the oxModuleStateFixer in the oxid console
-            /** @var oxModuleStateFixer $oModuleStateFixer */
-            $oModuleStateFixer = oxRegistry::get('oxModuleStateFixer');
-            $oModuleStateFixer->setConfig($oConfig);
-            /** @var oxModule $oModule */
-            $oModule = oxNew('oxModule');
-        } else {
-            //pre oxid 5.2 we have the oxStateFixerModule in the oxid console
-            /** @var oxModule $oModule */
-            $oModule = oxNew('oxStateFixerModule');
-        }
+        /** @var ModuleStateFixer $oModuleStateFixer */
+        $oModuleStateFixer = oxRegistry::get(ModuleStateFixer::class);
+        $oModuleStateFixer->setConfig($oConfig);
+        /** @var oxModule $oModule */
+        $oModule = oxNew('oxModule');
         $oModule->setConfig($oConfig);
 
         $updatedModules = [];

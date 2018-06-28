@@ -59,7 +59,7 @@ class ConfigExport extends CommandBase
             $this->writeMetaConfigFile($aShops);
 
             $this->getDebugOutput()->writeLn("done");
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $this->getDebugOutput()->writeLn("Could not complete");
             $this->getDebugOutput()->writeLn($e->getMessage());
             $this->getDebugOutput()->writeLn($e->getTraceAsString());
@@ -514,13 +514,13 @@ class ConfigExport extends CommandBase
      * @param string $sFileName
      * @param string $sData
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     protected function writeStringToFile($sFileName, $sData)
     {
         $sMode = 'w';
         if ($sFileName && $sData) {
-            $oFile = new SplFileObject($sFileName, $sMode);
+            $oFile = new \SplFileObject($sFileName, $sMode);
             $oFile->fwrite($sData);
         }
     }
