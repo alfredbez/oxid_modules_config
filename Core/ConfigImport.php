@@ -37,7 +37,7 @@ class ConfigImport extends CommandBase
 {
 
     /**
-     * @var oxConfig $oConfig
+     * @var \oxConfig $oConfig
      */
     protected $oConfig;
 
@@ -72,7 +72,7 @@ class ConfigImport extends CommandBase
             $this->getDebugOutput()->writeLn("Could not parse a YAML File.");
             $this->getDebugOutput()->writeLn($e->getMessage());
             exit(1);
-        } catch (oxFileException $oEx) {
+        } catch (\oxFileException $oEx) {
             $this->getDebugOutput()->writeLn("Could not complete");
             $this->getDebugOutput()->writeLn($oEx->getMessage());
             exit(2);
@@ -163,7 +163,7 @@ class ConfigImport extends CommandBase
     protected function importShopsConfig($aConfigValues)
     {
         /**
-         * @var oxshop $oShop
+         * @var \oxShop $oShop
          */
         $oShop = oxNew("oxshop");
         $sShopId = $this->sShopId;
@@ -214,7 +214,7 @@ class ConfigImport extends CommandBase
 
         $oConfig = ShopConfig::get($sShopId);
         $this->oConfig = $oConfig;
-        oxRegistry::set('oxConfig',$oConfig);
+        \oxRegistry::set('oxConfig',$oConfig);
 
 
         $disabledModulesBeforeImport = array_flip($oConfig->getConfigParam('aDisabledModules'));
@@ -224,9 +224,9 @@ class ConfigImport extends CommandBase
         $aModuleVersions = $this->getConfigValue($aConfigValues,'aModuleVersions');
 
         /** @var ModuleStateFixer $oModuleStateFixer */
-        $oModuleStateFixer = oxRegistry::get(ModuleStateFixer::class);
+        $oModuleStateFixer = \oxRegistry::get(ModuleStateFixer::class);
         $oModuleStateFixer->setConfig($oConfig);
-        /** @var oxModule $oModule */
+        /** @var \oxModule $oModule */
         $oModule = oxNew('oxModule');
         $oModule->setConfig($oConfig);
 
@@ -383,7 +383,7 @@ class ConfigImport extends CommandBase
         $excludeFlat = array_flip(array_filter($exclude,'is_string'));
 
         /**
-         * @var oxModuleList $oxModuleList
+         * @var \oxModuleList $oxModuleList
          * //it is important to call this method to load new module into the shop
          */
         $aModules = $oxModuleList->getModulesFromDir($oConfig->getModulesDir());
@@ -401,7 +401,7 @@ class ConfigImport extends CommandBase
             }
 
             // restore default module settings
-            /** @var oxModule $oModule */
+            /** @var \oxModule $oModule */
             $aDefaultModuleSettings = $oModule->getInfo("settings");
 
             // Ensure both arrays are array/not null
@@ -494,7 +494,7 @@ class ConfigImport extends CommandBase
 
     protected function getStoredVarTypes()
     {
-        $db = oxDb::getDb(oxDb::FETCH_MODE_ASSOC);
+        $db = \oxDb::getDb(\oxDb::FETCH_MODE_ASSOC);
         $sQ = "select CONCAT(oxvarname,'+',oxmodule) as mapkey, oxvartype from oxconfig where oxshopid = ?";
         $allRows = $db->getAll($sQ, [$this->sShopId]);
         $map = [];
@@ -541,7 +541,7 @@ class ConfigImport extends CommandBase
         }
         if(strpos($sSectionModule,'module') === 0) {
             if($existsAlsoInGlobalNameSpace = $this->getShopConfType($sVarName,'')) {
-                $db = oxDb::getDb();
+                $db = \oxDb::getDb();
                 $db->execute("DELETE FROM oxconfig WHERE oxshopid = ? AND oxvarname = ? AND oxmodule = ''",[$this->sShopId,$sVarName]);
                 $this->oOutput->writeLn("the config value $sVarName from module $sSectionModule was delete from global namespace");
             }
@@ -621,14 +621,14 @@ class ConfigImport extends CommandBase
     {
         $oConfig = $this->oConfig;
         
-        $oDb = oxDb::getDb();
+        $oDb = \oxDb::getDb();
         $sModuleQuoted = $oDb->quote($sModule);
         $sVarNameQuoted = $oDb->quote($sVarName);
         $sVarConstraintsQuoted = isset($mVarValue['constraints']) ? $oDb->quote($mVarValue['constraints']) : '\'\'';
         $sVarGroupingQuoted = isset($mVarValue['grouping']) ? $oDb->quote($mVarValue['grouping']) : '\'\'';
         $sVarPosQuoted = isset($mVarValue['pos']) ? $oDb->quote($mVarValue['pos']) : '\'\'';
     
-        $sNewOXIDdQuoted = $oDb->quote(oxUtilsObject::getInstance()->generateUID());
+        $sNewOXIDdQuoted = $oDb->quote(\oxUtilsObject::getInstance()->generateUID());
     
         $sQ = "delete from oxconfigdisplay WHERE OXCFGVARNAME = $sVarNameQuoted and OXCFGMODULE = $sModuleQuoted";
         $oDb->execute($sQ);

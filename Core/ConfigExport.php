@@ -63,7 +63,7 @@ class ConfigExport extends CommandBase
             $this->getDebugOutput()->writeLn("Could not complete");
             $this->getDebugOutput()->writeLn($e->getMessage());
             $this->getDebugOutput()->writeLn($e->getTraceAsString());
-        } catch (oxFileException $oEx) {
+        } catch (\oxFileException $oEx) {
             $this->getDebugOutput()->writeLn("Could not complete");
             $this->getDebugOutput()->writeLn($oEx->getMessage());
         }
@@ -98,11 +98,11 @@ class ConfigExport extends CommandBase
         
         $sSql = sprintf(
             $sSql,
-            oxRegistry::getConfig()->getDecodeValueQuery(),
+            \oxRegistry::getConfig()->getDecodeValueQuery(),
             implode("', '", $aConfigFields)
         );
 
-        $aConfigValues  = oxDb::getDb(oxDb::FETCH_MODE_ASSOC)->getAll($sSql);
+        $aConfigValues  = \oxDb::getDb(\oxDb::FETCH_MODE_ASSOC)->getAll($sSql);
         $aGroupedValues = $this->groupValues($aConfigValues);
         foreach ($aGroupedValues as $shopid => &$values) {
             $values = $this->filterNestedExcludes($values);
@@ -143,7 +143,7 @@ class ConfigExport extends CommandBase
      */
     protected function addShopConfig(& $aGroupedValues, $aConfigFields, $blInclude_mode)
     {
-        $aShops = oxDb::getDb(oxDb::FETCH_MODE_ASSOC)->getAll('SELECT * FROM `oxshops` ORDER BY oxid ASC');
+        $aShops = \oxDb::getDb(\oxDb::FETCH_MODE_ASSOC)->getAll('SELECT * FROM `oxshops` ORDER BY oxid ASC');
         foreach ($aShops as $aShop) {
             $id = $aShop['OXID'];
             unset ($aShop['OXID']);
@@ -173,9 +173,9 @@ class ConfigExport extends CommandBase
             //TODO $blForceClean should also call force-repaire and repair module path to be sure module realy not exists
             //TODO mark already cleaned modules
             $oDebugOutput->writeLn("[DEBUG] Cleanup {$sModuleId}: $sSql");
-            oxDb::getDb(oxDb::FETCH_MODE_ASSOC)->execute($sSql);
+            \oxDb::getDb(\oxDb::FETCH_MODE_ASSOC)->execute($sSql);
             $oDebugOutput->writeLn("[DEBUG] Cleanup {$sModuleId}: $sSql2");
-            oxDb::getDb(oxDb::FETCH_MODE_ASSOC)->execute($sSql2);
+            \oxDb::getDb(\oxDb::FETCH_MODE_ASSOC)->execute($sSql2);
             //TODO: should also fix module version array
         } else {
             $oDebugOutput->writeLn("[ERROR] {$sModuleId} does not exist. use --force-cleanup or run $sSql; $sSql2 ");
@@ -196,7 +196,7 @@ class ConfigExport extends CommandBase
             if (isset($aShopConfig['module'])) {
                 $aModuleConfigs = &$aShopConfig['module'];
 
-                /** @var oxModule $oModule */
+                /** @var \oxModule $oModule */
                 $oModule = oxNew('oxModule');
 
                 foreach ($aModuleConfigs as $sModuleId => &$aModuleConfig) {
@@ -486,7 +486,7 @@ class ConfigExport extends CommandBase
      */
     protected function _getNodeIdentifiers()
     {
-        $aServersKeysAsFound = oxDb::getDb(oxDb::FETCH_MODE_ASSOC)->getAll(
+        $aServersKeysAsFound = \oxDb::getDb(\oxDb::FETCH_MODE_ASSOC)->getAll(
             "SELECT `OXID`, `OXVARNAME` FROM `oxconfig` WHERE `OXVARNAME` LIKE ?;",
             ['aServersData%']
         );

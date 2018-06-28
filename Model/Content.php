@@ -30,7 +30,7 @@ namespace OxidProfessionalServices\ModulesConfig\Model;
  * Class Content
  * Module configuration import and export content handler defines what data is used in the processes.
  */
-class Content extends oxSuperCfg
+class Content extends \oxSuperCfg
 {
 
     /**
@@ -56,7 +56,7 @@ class Content extends oxSuperCfg
      */
     public function getModulesList()
     {
-        /** @var oxModuleList $oModuleList */
+        /** @var \oxModuleList $oModuleList */
         $oModuleList = oxNew('oxModuleList');
 
         // Get all modules data
@@ -78,7 +78,7 @@ class Content extends oxSuperCfg
         $aSettings = array();
 
         foreach ($this->_aModuleSettings as $sSetting) {
-            $aSettings[$sSetting] = sprintf('OXPS_MODULESCONFIG_SETTING_%s', oxStr::getStr()->strtoupper($sSetting));
+            $aSettings[$sSetting] = sprintf('OXPS_MODULESCONFIG_SETTING_%s', \oxStr::getStr()->strtoupper($sSetting));
         }
 
         return $aSettings;

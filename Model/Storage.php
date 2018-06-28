@@ -30,7 +30,7 @@ namespace OxidProfessionalServices\ModulesConfig\Model;
  * Class Storage
  * A model for modules related configuration loading and saving methods.
  */
-class Storage extends oxConfig
+class Storage extends \oxConfig
 {
 
     /**
@@ -207,7 +207,7 @@ class Storage extends oxConfig
      */
     protected function _loadListFromShopConfig($sModuleId, $sSettingKey)
     {
-        $oDb = oxDb::getDb(oxdb::FETCH_MODE_ASSOC);
+        $oDb = \oxDb::getDb(\oxdb::FETCH_MODE_ASSOC);
 
         return (array) $oDb->getArray(
             sprintf(
@@ -232,7 +232,7 @@ class Storage extends oxConfig
      */
     protected function _loadFromBlocksTable($sModuleId, $sSettingKey)
     {
-        $oDb = oxDb::getDb(oxdb::FETCH_MODE_ASSOC);
+        $oDb = \oxDb::getDb(\oxdb::FETCH_MODE_ASSOC);
 
         return (array) $oDb->getArray(
             sprintf(
@@ -289,7 +289,7 @@ class Storage extends oxConfig
      */
     protected function _saveModuleSettings($sModuleId, array $aSettings)
     {
-        $oDb = oxDb::getDb();
+        $oDb = \oxDb::getDb();
 
         // Delete all settings for a module in current sub-shop from database
         $oDb->execute(
@@ -326,10 +326,10 @@ class Storage extends oxConfig
      */
     protected function _saveModuleBlocks($sModuleId, array $aBlocks)
     {
-        /** @var oxUtilsObject $oObjectUtils */
-        $oObjectUtils = oxRegistry::get('oxUtilsObject');
+        /** @var \oxUtilsObject $oObjectUtils */
+        $oObjectUtils = \oxRegistry::get('oxUtilsObject');
 
-        $oDb = oxDb::getDb();
+        $oDb = \oxDb::getDb();
 
         // Delete all blocks for a module in current sub-shop from database
         $oDb->execute(

@@ -194,7 +194,7 @@ abstract class CommandBase
      */
     protected function _getConfigurationDirectoryPath()
     {
-        $oConfig                             = oxRegistry::getConfig();
+        $oConfig                             = \oxRegistry::getConfig();
         $sPathToThisModule                   = $oConfig->getModulesDir(
             ) . 'oxps' . DIRECTORY_SEPARATOR . 'modulesconfig' . DIRECTORY_SEPARATOR;
         $sRelativeConfigurationDirectoryPath = $oConfig->getConfigParam(
@@ -266,7 +266,7 @@ abstract class CommandBase
      * @param string $sFileName Name/path to the config file, that configure this config ex/importer
      * @param null   $sType
      *
-     * @throws Exception
+     * @throws \Exception
      * @throws \Symfony\Component\Yaml\Exception\ParseException
      *
      * @return array|mixed
@@ -289,7 +289,7 @@ abstract class CommandBase
         } elseif ($sType == 'yaml') {
             $aResults = Yaml::parse($sFileContent);
         } else {
-            throw new Exception("unsuported config type" . $sType);
+            throw new \Exception("unsuported config type" . $sType);
         }
 
         return $aResults;

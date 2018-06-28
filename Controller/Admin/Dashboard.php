@@ -38,7 +38,7 @@ use OxidProfessionalServices\ModulesConfig\Core\Module;
  * @todo: Add a checkbox for import force (ignores shop versions, edition and ID differences)
  * @todo: Add checkbox for ALL sub-shops export / import.
  */
-class Dashboard extends oxAdminView
+class Dashboard extends \oxAdminView
 {
 
     /**
@@ -79,7 +79,7 @@ class Dashboard extends oxAdminView
     public function getModulesList()
     {
         /** @var Content $oContent */
-        $oContent = oxRegistry::get(Content::class);
+        $oContent = \oxRegistry::get(Content::class);
 
         return (array) $oContent->getModulesList();
     }
@@ -92,7 +92,7 @@ class Dashboard extends oxAdminView
     public function getSettingsList()
     {
         /** @var Content $oContent */
-        $oContent = oxRegistry::get(Content::class);
+        $oContent = \oxRegistry::get(Content::class);
 
         return (array) $oContent->getSettingsList();
     }
@@ -145,7 +145,7 @@ class Dashboard extends oxAdminView
     public function getValidator()
     {
         if (is_null($this->_oValidator)) {
-            $this->_oValidator = oxRegistry::get(RequestValidator::class);
+            $this->_oValidator = \oxRegistry::get(RequestValidator::class);
         }
 
         return $this->_oValidator;

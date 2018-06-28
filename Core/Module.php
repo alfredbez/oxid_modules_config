@@ -30,7 +30,7 @@ namespace OxidProfessionalServices\ModulesConfig\Core;
  * Class Module
  * Extends oxModule class handles module setup, provides additional tools.
  */
-class Module extends oxModule
+class Module extends \oxModule
 {
 
     /**
@@ -83,7 +83,7 @@ class Module extends oxModule
      */
     protected static function _getFolderToClear($sClearFolderPath = '')
     {
-        $sTempFolderPath = (string) oxRegistry::getConfig()->getConfigParam('sCompileDir');
+        $sTempFolderPath = (string) \oxRegistry::getConfig()->getConfigParam('sCompileDir');
 
         if (!empty($sClearFolderPath) and (strpos($sClearFolderPath, $sTempFolderPath) !== false)) {
             $sFolderPath = $sClearFolderPath;

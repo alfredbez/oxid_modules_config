@@ -30,7 +30,7 @@ namespace OxidProfessionalServices\ModulesConfig\Core;
  * Class JsonValidator
  * Modules configuration import JSON data validation helper.
  */
-class JsonValidator extends oxSuperCfg
+class JsonValidator extends \oxSuperCfg
 {
 
     /**

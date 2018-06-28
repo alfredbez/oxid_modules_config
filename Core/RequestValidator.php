@@ -32,7 +32,7 @@ use OxidProfessionalServices\ModulesConfig\Model\Content;
  * Class RequestValidator
  * Modules configuration data validation and error handler.
  */
-class RequestValidator extends oxSuperCfg
+class RequestValidator extends \oxSuperCfg
 {
 
     /**
@@ -152,7 +152,7 @@ class RequestValidator extends oxSuperCfg
     protected function _checkIfModulesAreAvailable(array $aModules)
     {
         /** @var Content $oContent */
-        $oContent = oxRegistry::get(Content::class);
+        $oContent = \oxRegistry::get(Content::class);
         $aValidModules = $oContent->getModulesList();
 
         foreach ($aModules as $sModule) {
@@ -187,7 +187,7 @@ class RequestValidator extends oxSuperCfg
     protected function _checkIfSettingsAreAvailable(array $aSettings)
     {
         /** @var Content $oContent */
-        $oContent = oxRegistry::get(Content::class);
+        $oContent = \oxRegistry::get(Content::class);
         $aValidSettings = $oContent->getSettingsList();
 
         foreach ($aSettings as $sSettings) {

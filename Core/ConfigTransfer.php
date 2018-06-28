@@ -34,7 +34,7 @@ use OxidProfessionalServices\ModulesConfig\Model\Storage;
  *
  * @todo: Collect JSON encode/decode errors from json_last_error()?
  */
-class ConfigTransfer extends oxSuperCfg
+class ConfigTransfer extends \oxSuperCfg
 {
 
     /**
@@ -121,7 +121,7 @@ class ConfigTransfer extends oxSuperCfg
     public function getImportDataValidationErrors()
     {
         /** @var JsonValidator $oImportDataValidator */
-        $oImportDataValidator = oxRegistry::get(JsonValidator::class);
+        $oImportDataValidator = \oxRegistry::get(JsonValidator::class);
         $oImportDataValidator->init($this->getImportData(), $this->_getSettingsDataHeader());
 
         return (array) $oImportDataValidator->validateJsonData();
@@ -304,7 +304,7 @@ class ConfigTransfer extends oxSuperCfg
      */
     protected function _getBackupFolderPath()
     {
-        /** @var oxConfig $oConfig */
+        /** @var \oxConfig $oConfig */
         $oConfig = $this->getConfig();
 
         $sShopDirPath = (string) $oConfig->getConfigParam('sShopDir');
@@ -355,7 +355,7 @@ class ConfigTransfer extends oxSuperCfg
      */
     protected function _getSettingsDataHeader(array $aModules = array())
     {
-        /** @var oxConfig $oConfig */
+        /** @var \oxConfig $oConfig */
         $oConfig = $this->getConfig();
 
         return array(
@@ -380,7 +380,7 @@ class ConfigTransfer extends oxSuperCfg
     protected function _getSettingValue($sModuleId, $sSetting)
     {
         /** @var Storage $oConfigurationStorage */
-        $oConfigurationStorage = oxRegistry::get(Storage::class);
+        $oConfigurationStorage = \oxRegistry::get(Storage::class);
 
         return $oConfigurationStorage->load($sModuleId, $sSetting);
     }
@@ -396,7 +396,7 @@ class ConfigTransfer extends oxSuperCfg
     protected function _setSettingValue($sModuleId, $sSetting, $mValue)
     {
         /** @var Storage $oConfigurationStorage */
-        $oConfigurationStorage = oxRegistry::get(Storage::class);
+        $oConfigurationStorage = \oxRegistry::get(Storage::class);
 
         $oConfigurationStorage->save($sModuleId, $sSetting, $mValue);
     }
