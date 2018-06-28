@@ -1,8 +1,4 @@
-----
-
-# OXID Module Configuration Im-/Exporter
-
-----
+# OXID Core and Module Configurations Import and Export module
 
 Tools to export, backup and import OXID eShop modules, module settings, shop settings and module activation.
 There are 2 ways to use the functionality:
@@ -11,17 +7,29 @@ There are 2 ways to use the functionality:
 
 All relevant modules configuration is being used including: Versions, Extended classes, Module classes, Templates, Blocks, Settings and Events. 
 
-## Installation
- - Copy the content of `copy_this/` folder to OXID eShop root folder
- - Activate the module in administration area
+# Install
+
+## Install using a local repository
+
+* Create a local directory for repositories in your project, e.g. `oxideshop/extensions`.
+* Check-out this module and move it to the directory you just created
+* Add the repository to your project's compser.json, e.g. like this:
+
+  ```json
+    "repositories": {
+        "oxid-professional-services/oxid-modules-config": {
+            "type": "path",
+            "url": "extensions/oxps_modulesconfig/"
+        }
+    }
+  ```
+## Install from VCS
+
+* Require `oxid-professional-services/oxid-modules-config`
  
 ## Development
 In order to run the tests you need to have the [OXID testing-library v1.0.6](https://github.com/OXID-eSales/testing_library/tree/v1.0.6) installed. As best practice the testing-library
 should be installed in shop vendor directory.
 
-## Usage
-
-See Wiki
-
 ## History
-A previous version of this module with less features is on [GitHub](https://github.com/druteika/oxid_modules_config).
+A previous version of this module with less features is on [GitHub](https://github.com/OXIDprojects/oxid_modules_config).
