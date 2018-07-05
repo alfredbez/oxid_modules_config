@@ -215,6 +215,10 @@ class ConfigImport extends CommandBase
         $oConfig = ShopConfig::get($sShopId);
         $this->oConfig = $oConfig;
         \oxRegistry::set('oxConfig',$oConfig);
+        //the oxutilsobject hold the shop id indirectly within the shopid calculator
+        //and so will cause reading the wrong cache and so cause errors during the fix states
+        $_POST['shp'] = $sShopId;
+        \oxRegistry::set(\OxidEsales\Eshop\Core\UtilsObject::class,null);
 
         $aDisabledModules = $oConfig->getConfigParam('aDisabledModules');
         if ($aDisabledModules == null){
@@ -258,10 +262,8 @@ class ConfigImport extends CommandBase
                     $notLoadedModules[] = $sModuleId;
                     continue;
                 }
-                if ($oModuleStateFixer != null) {
-                    $disabledModulesBeforeImport[$sModuleId] = 'disabledByUpdate';
-                    $oModuleStateFixer->deactivate($oModule);
-                }
+                $disabledModulesBeforeImport[$sModuleId] = 'disabledByUpdate';
+                $oModuleStateFixer->deactivate($oModule);
             }
         }
 
@@ -320,11 +322,7 @@ class ConfigImport extends CommandBase
                     $this->output->writeLn(
                         "[INFO] activating module $sModuleId"
                     );
-                    if ($oModuleStateFixer != null) {
-                        $oModuleStateFixer->activate($oModule);
-                    } else {
-                        $oModule->activate();
-                    }
+                    $oModuleStateFixer->activate($oModule);
                 }
             }
 
@@ -335,16 +333,7 @@ class ConfigImport extends CommandBase
                     $oModuleStateFixer->setDebugOutput($this->getDebugOutput());
                 }
                 $oModuleStateFixer->fix($oModule);
-            } else {
-                $oModule->fixVersion();
-                $oModule->fixExtendGently();
-                $oModule->fixFiles();
-                $oModule->fixTemplates();
-                $oModule->fixBlocks();
-                $oModule->fixSettings();
-                $oModule->fixEvents();
             }
-
 
             $sCurrentVersion = $oModule->getInfo("version");
             if ($sCurrentVersion != $sVersion) {
