@@ -216,8 +216,13 @@ class ConfigImport extends CommandBase
         $this->oConfig = $oConfig;
         \oxRegistry::set('oxConfig',$oConfig);
 
-
-        $disabledModulesBeforeImport = array_flip($oConfig->getConfigParam('aDisabledModules'));
+        $aDisabledModules = $oConfig->getConfigParam('aDisabledModules');
+        if ($aDisabledModules == null){
+            //if the oxconfig database was cleared (eg in case of error)
+            //fall back to a empty array
+            $aDisabledModules = [];
+        }
+        $disabledModulesBeforeImport = array_flip($aDisabledModules);
         $disabledModulesBeforeImport = array_flip($disabledModulesBeforeImport);
         $modulesKnownBeforeImport = $oConfig->getConfigParam('aModuleVersions');
 
