@@ -532,13 +532,26 @@ class ConfigExport extends CommandBase
     {
         $aGlobalExcludeFields = array_merge(
             //$this->_getImFields(),
-            $this->aConfiguration['excludeFields'],
+            $this->_getDefaultExcludeFields(),
+            $this->aConfiguration['excludeFields'], //Custom exclude fields
             $this->aConfiguration['envFields'],
             $this->_getOllcFields(),
             $this->_getNodeIdentifiers()
         );
 
         return $aGlobalExcludeFields;
+    }
+
+    /**
+     * Exclude fields that will be written when modules are activated.
+     *
+     * @return string[]
+     */
+    protected function _getDefaultExcludeFields()
+    {
+        return [
+            'aModuleControllers'
+        ];
     }
 
     /**

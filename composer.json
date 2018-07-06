@@ -4,7 +4,7 @@
   "type": "oxideshop-module",
   "keywords": ["oxid", "modules", "eShop", "oxconfig", "config", "export"],
   "license": "GPL-3.0",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "require": {
     "symfony/yaml": "^2.8.36",
     "oxid-esales/oxideshop-ce": "^v6.0.0",
