@@ -1,4 +1,4 @@
-# unreleased
+# 4.0.2
 
 * Updating module for OXID eShop V6
 * Composer-ready
