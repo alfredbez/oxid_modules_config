@@ -5,10 +5,17 @@
 use the correct shop id during fix states during the import
 
 ## 4.0.6
+### changed
+remove version from composer.json (to be read from composer.lock)
 
 ## 4.0.5
+### fixed
+catch exception for module activation
+and compare versions to only run updates for new module versions
 
 ## 4.0.4
+### changed
+Added a getter for default exclude fields, will skip the module controllers array.
 
 ## 4.0.3
 
