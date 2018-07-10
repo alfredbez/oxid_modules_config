@@ -28,6 +28,7 @@ namespace OxidProfessionalServices\ModulesConfig\Core;
 
 use OxidProfessionalServices\OxidConsole\Core\Module\ModuleStateFixer;
 use OxidProfessionalServices\OxidConsole\Core\ShopConfig;
+use OxidEsales\Eshop\Core\Registry;
 
 /**
  * Class ConfigImport
@@ -214,11 +215,28 @@ class ConfigImport extends CommandBase
 
         $oConfig = ShopConfig::get($sShopId);
         $this->oConfig = $oConfig;
-        \oxRegistry::set('oxConfig',$oConfig);
+        Registry::set('oxConfig',$oConfig);
         //the oxutilsobject hold the shop id indirectly within the shopid calculator
         //and so will cause reading the wrong cache and so cause errors during the fix states
         $_POST['shp'] = $sShopId;
-        \oxRegistry::set(\OxidEsales\Eshop\Core\UtilsObject::class,null);
+        //just setting the correct shopId on this object because it is defaults to one load by config init.
+        //doing so does not having any known effect.
+        $oConfig->getActiveShop()->setShopId($sShopId);
+
+        //we need a fresh instance here because
+        //shopId calculator is private
+        $freshUtilsObject = new \OxidEsales\Eshop\Core\UtilsObject();
+        Registry::set(\OxidEsales\Eshop\Core\UtilsObject::class,$freshUtilsObject);
+
+
+        $ouo = Registry::get(\OxidEsales\Eshop\Core\UtilsObject::class);
+        if($oConfig->getShopId() != $sShopId ||
+            $oConfig->getActiveShop()->getShopId() !=  $sShopId ||
+            $ouo->getShopId() != $sShopId) {
+            throw new \Exception("ShopId was not set correctly, this means shop internal have changed and import must be adapted");
+        }
+
+
 
         $aDisabledModules = $oConfig->getConfigParam('aDisabledModules');
         if ($aDisabledModules == null){
