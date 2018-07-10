@@ -1,8 +1,16 @@
 # Changelog for Config Importer
 
-## 4.0.3
+## 4.0.7
 ### fixed
 use the correct shop id during fix states during the import
+
+## 4.0.6
+
+## 4.0.5
+
+## 4.0.4
+
+## 4.0.3
 
 ## 4.0.2
 
