@@ -243,16 +243,19 @@ class ConfigImport extends CommandBase
         $notLoadedModules = [];
         foreach ($aModuleVersions as $sModuleId => $sVersion) {
             $oldVersion = $modulesKnownBeforeImport[$sModuleId];
-            $newVersion = $aModuleVersions[$sModuleId];
-            if ($oldVersion != $newVersion) {
+            $versionToImport = $aModuleVersions[$sModuleId];
+
+
+            $gt = version_compare($versionToImport, $oldVersion,'>');
+            if ($gt) {
                 $updatedModules[$sModuleId] = $sModuleId;
                 if (isset($oldVersion)) {
                     $this->output->writeLn(
-                        "[INFO] {$sModuleId} has a different version ($oldVersion vs $newVersion) disabling it, so it can do updates"
+                        "[INFO] {$sModuleId} has a different version (db:$oldVersion vs import:$versionToImport) disabling it, so it can do updates"
                     );
                 } else {
                     $this->output->writeLn(
-                        "[NOTE] {$sModuleId} $newVersion is new"
+                        "[NOTE] {$sModuleId} $versionToImport is new"
                     );
                 }
                 if (!$oModule->load($sModuleId)) {
@@ -261,6 +264,11 @@ class ConfigImport extends CommandBase
                     //later we will check if there is anything left that can still not be loaded
                     $notLoadedModules[] = $sModuleId;
                     continue;
+                } else {
+                    //$cv = $oModule->getInfo('version');
+                    //$this->output->writeLn(
+                    //    "[NOTE] {$sModuleId} current version is $cv"
+                    //);
                 }
                 $disabledModulesBeforeImport[$sModuleId] = 'disabledByUpdate';
                 $oModuleStateFixer->deactivate($oModule);
@@ -322,7 +330,13 @@ class ConfigImport extends CommandBase
                     $this->output->writeLn(
                         "[INFO] activating module $sModuleId"
                     );
-                    $oModuleStateFixer->activate($oModule);
+                    try {
+                        /** Support for the key 'controllers' was added in MetaData version 2.0 */
+                        $oModuleStateFixer->activate($oModule);
+                    } catch (\Exception $exception) {
+                        print "[ERROR] $sModuleId was NOT activated again.";
+                    }
+
                 }
             }
 
@@ -610,29 +624,29 @@ class ConfigImport extends CommandBase
         }
         return $aModuleVersions;
     }
-    
+
     protected function saveThemeDisplayVars($sVarName, $mVarValue, $sModule)
     {
         $oConfig = $this->oConfig;
-        
+
         $oDb = \oxDb::getDb();
         $sModuleQuoted = $oDb->quote($sModule);
         $sVarNameQuoted = $oDb->quote($sVarName);
         $sVarConstraintsQuoted = isset($mVarValue['constraints']) ? $oDb->quote($mVarValue['constraints']) : '\'\'';
         $sVarGroupingQuoted = isset($mVarValue['grouping']) ? $oDb->quote($mVarValue['grouping']) : '\'\'';
         $sVarPosQuoted = isset($mVarValue['pos']) ? $oDb->quote($mVarValue['pos']) : '\'\'';
-    
+
         $sNewOXIDdQuoted = $oDb->quote(\oxUtilsObject::getInstance()->generateUID());
-    
+
         $sQ = "delete from oxconfigdisplay WHERE OXCFGVARNAME = $sVarNameQuoted and OXCFGMODULE = $sModuleQuoted";
         $oDb->execute($sQ);
-        
+
         $sQ = "insert into oxconfigdisplay (oxid, oxcfgmodule, oxcfgvarname, oxgrouping, oxvarconstraint, oxpos )
                values($sNewOXIDdQuoted, $sModuleQuoted, $sVarNameQuoted, $sVarGroupingQuoted, $sVarConstraintsQuoted, $sVarPosQuoted)";
         $oDb->execute($sQ);
-    
+
         $oConfig->executeDependencyEvent($sVarName);
-    
+
     }
-    
+
 }
