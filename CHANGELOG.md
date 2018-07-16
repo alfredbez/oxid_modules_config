@@ -1,5 +1,9 @@
 # Changelog for Config Importer
 
+## 4.0.8
+### fixed
+use correct version number in metadata.php
+
 ## 4.0.7
 ### fixed
 use the correct shop id during fix states during the import
