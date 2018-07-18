@@ -1,5 +1,10 @@
 # Changelog for Config Importer
 
+## 4.0.9
+### changed
+* do not export aModuleExtensions anymore
+* unique aDisabledModules
+
 ## 4.0.8
 ### fixed
 use correct version number in metadata.php
