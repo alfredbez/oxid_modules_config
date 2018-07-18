@@ -550,7 +550,8 @@ class ConfigExport extends CommandBase
     protected function _getDefaultExcludeFields()
     {
         return [
-            'aModuleControllers'
+            'aModuleControllers',
+            'aModuleExtensions'
         ];
     }
 
