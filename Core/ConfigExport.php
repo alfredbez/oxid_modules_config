@@ -95,7 +95,7 @@ class ConfigExport extends CommandBase
                  LEFT JOIN oxconfigdisplay as disp
                  ON cfg.oxmodule=disp.oxcfgmodule AND cfg.oxvarname=disp.oxcfgvarname
                  WHERE cfg.oxvarname $sIncludeMode IN ('%s') order by oxshopid asc, oxmodule ASC, oxvarname ASC";
-        
+
         $sSql = sprintf(
             $sSql,
             \oxRegistry::getConfig()->getDecodeValueQuery(),
@@ -323,6 +323,7 @@ class ConfigExport extends CommandBase
                 if (in_array($sVarName, array('aDisabledModules'))) {
                     $mVarValue = array_values($mVarValue);
                     sort($mVarValue);
+                    $mVarValue = array_values(array_unique($mVarValue));
                 }
 
                 //only export module info if the the order may be important
@@ -610,7 +611,7 @@ class ConfigExport extends CommandBase
 
         $this->writeDataToFile($this->getShopsConfigFileName(), $aMetaConfigFile);
     }
-    
+
     private function varValueWithThemeDisplayInfo($sVarName, $mVarValue, $sVarType, $sVarConstraints, $sVarGrouping, $sVarPos)
     {
         if (!empty($sVarConstraints)||!empty($sVarPos)||!empty($sVarGrouping)) {
