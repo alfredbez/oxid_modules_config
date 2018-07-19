@@ -1,5 +1,9 @@
 # Changelog for Config Importer
 
+## 4.0.10
+### fixed
+* debug output is working again
+
 ## 4.0.9
 ### changed
 * do not export aModuleExtensions anymore
