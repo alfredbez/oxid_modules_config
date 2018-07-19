@@ -2,6 +2,7 @@
 
 namespace OxidProfessionalServices\ModulesConfig\Core;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -227,7 +228,7 @@ abstract class CommandBase
      */
     protected function setDebugOutput()
     {
-        $oDebugOutput       = $this->input->hasOption('v') ? $this->output : oxNew(NullOutput::class);
+        $oDebugOutput       = ($this->output->getVerbosity() & OutputInterface::VERBOSITY_VERBOSE) == OutputInterface::VERBOSITY_VERBOSE ? $this->output : oxNew(NullOutput::class);
         $this->debugOutput = $oDebugOutput;
     }
 
