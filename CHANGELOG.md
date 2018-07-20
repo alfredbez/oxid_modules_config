@@ -1,5 +1,8 @@
 # Changelog for Config Importer
 
+## 4.0.11
+sorting version field
+
 ## 4.0.10
 ### fixed
 * debug output is working again
