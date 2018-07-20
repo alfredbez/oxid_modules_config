@@ -1,5 +1,10 @@
 # Changelog for Config Importer
 
+## 4.0.12
+* performance
+* fix to be compatible with new oxid console
+statefixer needs output object 
+
 ## 4.0.11
 sorting version field
 
