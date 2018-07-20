@@ -183,22 +183,28 @@ class ConfigImport extends CommandBase
         $oShop->setShopId($sShopId);
         $aOxShopSettings = $aConfigValues['oxshops'];
         if ($aOxShopSettings) {
-            $oShop->assign($aOxShopSettings);
-            //fake active shopid to allow derived update
-            $oShop->getConfig()->setShopId($sShopId);
-            $oShop->save();
-            for ($i = 1; $i <= 3; $i++) {
-                $oShop->setLanguage($i);
-                foreach ($aOxShopSettings as $sVarName => $mVarValue) {
-                    $iPosLastChar = strlen($sVarName) - 1;
-                    $iPosUnderscore = $iPosLastChar - 1;
-                    if ($sVarName[$iPosUnderscore] == '_' && $sVarName[$iPosLastChar] == $i) {
-                        $sFiledName = substr($sVarName, 0, strlen($sVarName) - 2);
-                        $aOxShopSettings[$sFiledName] = $mVarValue;
-                    }
-                }
+            $db = \oxDb::getDb(\oxDb::FETCH_MODE_ASSOC);
+            $old = $db->select("select * from oxshops where oxid = ?",[$sShopId])->fetchAll();
+            $old = $old ? $old[0] : [];
+            $diff = array_diff_assoc($aOxShopSettings,$old);
+            if ($diff) {
                 $oShop->assign($aOxShopSettings);
+                //fake active shopid to allow derived update
+                $oShop->getConfig()->setShopId($sShopId);
                 $oShop->save();
+                for ($i = 1; $i <= 3; $i++) {
+                    $oShop->setLanguage($i);
+                    foreach ($aOxShopSettings as $sVarName => $mVarValue) {
+                        $iPosLastChar = strlen($sVarName) - 1;
+                        $iPosUnderscore = $iPosLastChar - 1;
+                        if ($sVarName[$iPosUnderscore] == '_' && $sVarName[$iPosLastChar] == $i) {
+                            $sFiledName = substr($sVarName, 0, strlen($sVarName) - 2);
+                            $aOxShopSettings[$sFiledName] = $mVarValue;
+                        }
+                    }
+                    $oShop->assign($aOxShopSettings);
+                    $oShop->save();
+                }
             }
         }
     }
