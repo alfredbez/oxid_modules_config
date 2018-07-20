@@ -361,6 +361,7 @@ class ConfigImport extends CommandBase
             //fix state again because class chain was reset by the import above
             //also onActivate call event can cause duplicate tpl blocks
             $oModuleStateFixer->setDebugOutput($this->getDebugOutput());
+            $oModuleStateFixer->setOutput($this->output);
             $oModuleStateFixer->fix($oModule);
 
             $sCurrentVersion = $oModule->getInfo("version");
