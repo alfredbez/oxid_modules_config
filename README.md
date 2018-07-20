@@ -26,10 +26,3 @@ All relevant modules configuration is being used including: Versions, Extended c
 ## Install from VCS
 
 * Require `oxid-professional-services/oxid-modules-config`
- 
-## Development
-In order to run the tests you need to have the [OXID testing-library v1.0.6](https://github.com/OXID-eSales/testing_library/tree/v1.0.6) installed. As best practice the testing-library
-should be installed in shop vendor directory.
-
-## History
-A previous version of this module with less features is on [GitHub](https://github.com/OXIDprojects/oxid_modules_config).
