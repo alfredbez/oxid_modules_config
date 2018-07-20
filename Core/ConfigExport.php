@@ -342,7 +342,7 @@ class ConfigExport extends CommandBase
 
                 // the following options can be sorted so they have a stable order between exports,
                 // that makes merging easier
-                if (in_array($sVarName, array('aModules'))) {
+                if (in_array($sVarName, array('aModules','aModuleVersions'))) {
                     ksort($mVarValue);
                 }
 
