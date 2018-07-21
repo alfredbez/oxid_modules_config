@@ -26,6 +26,7 @@
 
 namespace OxidProfessionalServices\ModulesConfig\Core;
 
+use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidProfessionalServices\OxidConsole\Core\Module\ModuleStateFixer;
 use OxidProfessionalServices\OxidConsole\Core\ShopConfig;
 use OxidEsales\Eshop\Core\Registry;
@@ -38,7 +39,7 @@ class ConfigImport extends CommandBase
 {
 
     /**
-     * @var \oxConfig $oConfig
+     * @var ShopConfig $oConfig
      */
     protected $oConfig;
 
@@ -54,6 +55,17 @@ class ConfigImport extends CommandBase
      * it helps to avoid unnecessary db rights on deployment
      */
     protected $storedVarTypes = [];
+
+    protected $storedDisplayConfigHash = [];
+
+
+    public function init(){
+        parent::init();
+        $db = DatabaseProvider::getDb();
+        $hashValues = $db->getCol("SELECT md5(CONCAT(oxcfgmodule,'#', oxcfgvarname,'#', oxgrouping,'#', oxvarconstraint,'#', oxpos)) FROM oxconfigdisplay");
+        $this->storedDisplayConfigHash = array_fill_keys($hashValues, true);
+
+    }
 
     /*
      * executes all functionality which is necessary for a call of OXID console config:import
@@ -336,7 +348,7 @@ class ConfigImport extends CommandBase
                 }
             }
         }
-        $oConfig->saveShopConfVar('arr','aDisabledModules',$aDisabledModules);
+        $this->saveShopVar('aDisabledModules', $aDisabledModules, '','arr');
 
         foreach ($aModuleVersions as $sModuleId => $sVersion) {
             if (!$oModule->load($sModuleId)) {
@@ -532,42 +544,39 @@ class ConfigImport extends CommandBase
         }
         return $map;
     }
+
     public function getShopConfType($sVarName,$sSectionModule)
     {
         return $this->storedVarTypes[$sVarName.'+'.$sSectionModule];
     }
 
-    protected function saveShopVar($sVarName, $mVarValue, $sSectionModule, $sVarType = null)
+
+    protected function saveShopVarWithTypeInfo($sVarName, $mVarValue, $sSectionModule){
+        list($sVarType, $mVarValue) = $this->getTypeAndValue($sVarName, $mVarValue);
+        $this->saveShopVar($sVarName, $mVarValue, $sSectionModule, $sVarType);
+    }
+
+
+    protected function saveShopVar($sVarName, $mVarValue, $sSectionModule, $sVarType)
     {
         $sShopId = $this->sShopId;
         $oConfig = $this->oConfig;
 
-        $value = $oConfig->getShopConfVar($sVarName, $sShopId, $sSectionModule);
-        $type = $this->getShopConfType($sVarName,$sSectionModule);
-
-        if ($sVarType === null) {
-            list($sVarType, $mVarValue) = $this->getTypeAndValue($sVarName, $mVarValue);
-            if ($sVarType == 'bool') {
-                //internal representation of bool is 1 or ''
-                $value = $value ? '1' : '';
-            }
-        } else {
-            if ($sVarType == 'bool') {
-                //cleanup for some modules that have all kinds of bool representations in metadata.php
-                //so we can compare that value
-                $mVarValue = (($mVarValue == 'true' || $mVarValue) && $mVarValue && strcasecmp($mVarValue, "false"));
+        if ($sShopId != 1) {
+            $aOnlyMainShopVars = array_fill_keys(['blMallUsers', 'aSerials', 'IMD', 'IMA', 'IMS'],true);
+            if ($aOnlyMainShopVars[$sVarName]){
+                return;
             }
         }
 
-        if ($mVarValue !== $value || $sVarType !== $type) {
-            $oConfig->saveShopConfVar(
-                $sVarType,
-                $sVarName,
-                $mVarValue,
-                $sShopId,
-                $sSectionModule
-            );
-        }
+        $oConfig->saveShopConfVar(
+            $sVarType,
+            $sVarName,
+            $mVarValue,
+            $sShopId,
+            $sSectionModule
+        );
+
         if(strpos($sSectionModule,'module') === 0) {
             if($existsAlsoInGlobalNameSpace = $this->getShopConfType($sVarName,'')) {
                 $db = \oxDb::getDb();
@@ -594,15 +603,21 @@ class ConfigImport extends CommandBase
         if ($aThemes == null) {
             return;
         }
+        $parentTheme = $this->oConfig->getConfigParam('sTheme');
+        $theme = $this->oConfig->getConfigParam('sCustomTheme');
         foreach ($aThemes as $sThemeId => $aSettings) {
+            if ($sThemeId != $parentTheme && $theme != $sThemeId) {
+                $this->output->writeln("Theme $sThemeId from import from config file ignored because it is not active");
+                return;
+            }
             $sSectionModule = "theme:$sThemeId";
             foreach ($aSettings as $sVarName => $mVarValue) {
                 if(isset($mVarValue['value'])) {
-                    $this->saveShopVar($sVarName, $mVarValue['value'], $sSectionModule);
+                    $this->saveShopVarWithTypeInfo($sVarName, $mVarValue['value'], $sSectionModule);
                     $this->saveThemeDisplayVars($sVarName, $mVarValue, $sSectionModule);
                 }
                 else {
-                    $this->saveShopVar($sVarName, $mVarValue, $sSectionModule);
+                    $this->saveShopVarWithTypeInfo($sVarName, $mVarValue, $sSectionModule);
                 }
             }
         }
@@ -641,23 +656,28 @@ class ConfigImport extends CommandBase
             } elseif ($sVarName == 'aModuleVersions') {
                 $aModuleVersions = $mVarValue;
             }
-            $this->saveShopVar($sVarName, $mTypedVarValue, $sSectionModule);
+            $this->saveShopVarWithTypeInfo($sVarName, $mTypedVarValue, $sSectionModule);
         }
         return $aModuleVersions;
     }
 
     protected function saveThemeDisplayVars($sVarName, $mVarValue, $sModule)
     {
-        $oConfig = $this->oConfig;
-
         $oDb = \oxDb::getDb();
         $sModuleQuoted = $oDb->quote($sModule);
         $sVarNameQuoted = $oDb->quote($sVarName);
-        $sVarConstraintsQuoted = isset($mVarValue['constraints']) ? $oDb->quote($mVarValue['constraints']) : '\'\'';
-        $sVarGroupingQuoted = isset($mVarValue['grouping']) ? $oDb->quote($mVarValue['grouping']) : '\'\'';
-        $sVarPosQuoted = isset($mVarValue['pos']) ? $oDb->quote($mVarValue['pos']) : '\'\'';
+        $constraints = $mVarValue['constraints'];
+        $sVarConstraintsQuoted = isset($constraints) ? $oDb->quote($constraints) : '\'\'';
+        $grouping = $mVarValue['grouping'];
+        $sVarGroupingQuoted = isset($grouping) ? $oDb->quote($grouping) : '\'\'';
+        $pos = $mVarValue['pos'];
+        $sVarPosQuoted = isset($pos) ? $oDb->quote($pos) : '\'\'';
 
         $sNewOXIDdQuoted = $oDb->quote(\oxUtilsObject::getInstance()->generateUID());
+
+        if (isset($this->storedDisplayConfigHash[md5($sModule . '#' . $sVarName . '#' .  $grouping. '#'. $constraints .'#'. $pos)])){
+            return;
+        }
 
         $sQ = "delete from oxconfigdisplay WHERE OXCFGVARNAME = $sVarNameQuoted and OXCFGMODULE = $sModuleQuoted";
         $oDb->execute($sQ);
@@ -666,7 +686,6 @@ class ConfigImport extends CommandBase
                values($sNewOXIDdQuoted, $sModuleQuoted, $sVarNameQuoted, $sVarGroupingQuoted, $sVarConstraintsQuoted, $sVarPosQuoted)";
         $oDb->execute($sQ);
 
-        $oConfig->executeDependencyEvent($sVarName);
 
     }
 

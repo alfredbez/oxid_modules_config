@@ -26,6 +26,7 @@
 
 namespace OxidProfessionalServices\ModulesConfig\Core;
 
+use OxidEsales\Eshop\Core\DatabaseProvider;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -252,10 +253,27 @@ class ConfigExport extends CommandBase
             if (array_key_exists('theme', $aShopConfig)) {
                 $aCurrentThemeConfigs = &$aShopConfig['theme'];
                 $aDefaultThemeConfigs = $this->aDefaultConfig['theme'];
+
+                $currentParentTheme = $aGeneralConfig['sTheme'];
+                $currentTheme = $aGeneralConfig['sCustomTheme'];
+
                 foreach ($aCurrentThemeConfigs as $sTheme => &$aThemeConfig) {
+                    if ($sTheme != $currentParentTheme && $currentTheme != $sTheme) {
+                        unset($aCurrentThemeConfigs[$sTheme]);
+                        continue;
+                    }
+
                     $aDefaultThemeConfig = $aDefaultThemeConfigs[$sTheme];
-                    if ($aDefaultThemeConfig != null) {
-                        foreach ($aThemeConfig as $sVarName => $mCurrentValue) {
+                    foreach ($aThemeConfig as $sVarName => $mCurrentValue) {
+                        if (array_key_exists($sVarName,$aGeneralConfig)) {
+                            $this->output->writeln("config '$sVarName' is in theme and in gerneral namespace use --force-cleanup to repair");
+                            if ($this->input->getOption('force-cleanup') ) {
+                                $sSql = "DELETE FROM oxconfig WHERE oxmodule = '' AND oxvarname = ? AND oxshopid = ?";
+                                DatabaseProvider::getDb()->execute($sSql,[$sVarName,$sShopId]);
+                            }
+                            unset($aGeneralConfig[$sVarName]);
+                        }
+                        if ($aDefaultThemeConfig != null) {
                             $mDefaultValue = $aDefaultThemeConfig[$sVarName];
                             if ($mCurrentValue === $mDefaultValue) {
                                 unset($aThemeConfig[$sVarName]);
