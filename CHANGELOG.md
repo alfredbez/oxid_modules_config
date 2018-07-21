@@ -1,5 +1,9 @@
 # Changelog for Config Importer
 
+## 4.0.12 
+* performance
+* theme config handling (do not include unnecessary config)
+
 ## 4.0.12
 * performance
 * fix to be compatible with new oxid console
