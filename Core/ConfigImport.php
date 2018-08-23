@@ -389,7 +389,7 @@ class ConfigImport extends CommandBase
                     " $sVersion vs current version $sCurrentVersion please create a fresh export"
                 );
                 $aModuleVersions[$sModuleId] = $sCurrentVersion;
-                $this->saveShopVar('aModuleVersions', $aModuleVersions, '');
+                $this->saveShopVar('aModuleVersions', $aModuleVersions, '', 'arr');
             }
         }
     }
