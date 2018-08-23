@@ -1,11 +1,16 @@
 # Changelog for Config Importer
 
+## 4.0.13
+### fixed
+* fixed setting module version
+
 ## 4.0.12 
 * performance
 * theme config handling (do not include unnecessary config)
 
 ## 4.0.12
 * performance
+### fixed
 * fix to be compatible with new oxid console
 statefixer needs output object 
 
