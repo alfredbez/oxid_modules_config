@@ -608,7 +608,7 @@ class ConfigImport extends CommandBase
         foreach ($aThemes as $sThemeId => $aSettings) {
             if ($sThemeId != $parentTheme && $theme != $sThemeId) {
                 $this->output->writeln("Theme $sThemeId from import from config file ignored because it is not active");
-                return;
+                continue;
             }
             $sSectionModule = "theme:$sThemeId";
             foreach ($aSettings as $sVarName => $mVarValue) {

@@ -1,11 +1,16 @@
 # Changelog for Config Importer
 
+## 4.0.15 
+### fixed
+* theme config was not imported if there was a theme that was not used in the import 
+
 ## 4.0.14
 ### fixed
 * fixed setting module version
 
 ## 4.0.13 
 * performance
+### changed
 * theme config handling (do not include unnecessary config)
 
 ## 4.0.12
