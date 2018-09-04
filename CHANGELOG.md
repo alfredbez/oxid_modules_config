@@ -1,5 +1,9 @@
 # Changelog for Config Importer
 
+## 4.0.16 
+### fixed
+* fixed php warning
+
 ## 4.0.15 
 ### fixed
 * theme config was not imported if there was a theme that was not used in the import 
