@@ -223,7 +223,6 @@ class ConfigExport extends CommandBase
                         $sDefaultType  = $aConfigValue['type'];
                         $mDefaultValue = $aConfigValue['value'];
 
-                        $mCurrentValue = $aModuleConfig[$sVarName];
 
                         if ($sDefaultType == 'bool') {
                             if ($mDefaultValue === 'false') {
@@ -231,6 +230,14 @@ class ConfigExport extends CommandBase
                             } else {
                                 $mDefaultValue = $mDefaultValue ? '1' : '';
                             }
+                        }
+
+                        if (! isset($aModuleConfig[$sVarName])) {
+                            //TODO warning about not set module config value
+                            //this happens if the module was installed fresh and config was never saved in admin
+                            $mCurrentValue = $mDefaultValue;
+                        } else {
+                            $mCurrentValue = $aModuleConfig[$sVarName];
                         }
 
                         if ($mCurrentValue === $mDefaultValue) {
@@ -244,7 +251,7 @@ class ConfigExport extends CommandBase
             }
             $aDefaultGeneralConfig = $this->aDefaultConfig[$this->sNameForGeneralShopSettings];
             foreach ($aGeneralConfig as $sVarName => $mCurrentValue) {
-                $mDefaultValue = $aDefaultGeneralConfig[$sVarName];
+                $mDefaultValue = isset($aDefaultGeneralConfig[$sVarName]) ? $aDefaultGeneralConfig[$sVarName] : null;
                 if ($mCurrentValue === $mDefaultValue) {
                     unset($aGeneralConfig[$sVarName]);
                 }
@@ -263,7 +270,7 @@ class ConfigExport extends CommandBase
                         continue;
                     }
 
-                    $aDefaultThemeConfig = $aDefaultThemeConfigs[$sTheme];
+                    $aDefaultThemeConfig = isset($aDefaultThemeConfigs[$sTheme]) ? $aDefaultThemeConfigs[$sTheme] : null;
                     foreach ($aThemeConfig as $sVarName => $mCurrentValue) {
                         if (array_key_exists($sVarName,$aGeneralConfig)) {
                             $this->output->writeln("config '$sVarName' is in theme and in gerneral namespace use --force-cleanup to repair");
@@ -304,7 +311,7 @@ class ConfigExport extends CommandBase
             $sModule   = $aConfigValue['oxmodule'];
             $aParts    = explode(':', $sModule);
             $sSection  = $aParts[0];
-            $sModule   = $aParts[1];
+            $sModule   = isset($aParts[1]) ? $aParts[1] : '';
 
             if (in_array($sVarName, array('aDisabledModules'))) {
                 if ($sVarType !== 'arr') {
