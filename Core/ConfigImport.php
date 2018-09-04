@@ -137,7 +137,7 @@ class ConfigImport extends CommandBase
     {
         foreach ($aOverride as $key => $mOverriderValue) {
             if (is_array($mOverriderValue)) {
-                $aBaseValue = $aBase[$key];
+                $aBaseValue = isset($aBase[$key]) ? $aBase[$key] : null;
                 if ($aBaseValue) {
                     if (is_array($aBaseValue)) {
                         if ($key == 'module') {
@@ -455,7 +455,7 @@ class ConfigImport extends CommandBase
                 $aDefaultModuleSettings[$aSetting['name']] = $aSetting;
             }
             // array ($key => $value)
-            $aModuleOverride = is_null($allModulesConfigFromYaml[$sModuleId]) ? array() : $allModulesConfigFromYaml[$sModuleId];
+            $aModuleOverride = isset($allModulesConfigFromYaml[$sModuleId]) ? $allModulesConfigFromYaml[$sModuleId] : array();
 
             // merge from aModulesOverwrite into aDefaultModuleSettings
             $aMergedModuleSettings = array();
@@ -477,7 +477,7 @@ class ConfigImport extends CommandBase
                 // We do not want to override with default values of fields which
                 // excluded from configuration export
                 // as this will override those values with every config import.
-                if ($excludeFlat[$sVarName] ) {
+                if (isset($excludeFlat[$sVarName])) {
                     continue;
                 }
                 if ($aVarValue["type"] == 'aarr') {
@@ -547,7 +547,9 @@ class ConfigImport extends CommandBase
 
     public function getShopConfType($sVarName,$sSectionModule)
     {
-        return $this->storedVarTypes[$sVarName.'+'.$sSectionModule];
+
+        $cachekey = $sVarName . '+' . $sSectionModule;
+        return isset($this->storedVarTypes[$cachekey]) ? $this->storedVarTypes[$cachekey] : null;
     }
 
 
@@ -666,11 +668,11 @@ class ConfigImport extends CommandBase
         $oDb = \oxDb::getDb();
         $sModuleQuoted = $oDb->quote($sModule);
         $sVarNameQuoted = $oDb->quote($sVarName);
-        $constraints = $mVarValue['constraints'];
+        $constraints = isset($mVarValue['constraints']) ? $mVarValue['constraints'] : null;
         $sVarConstraintsQuoted = isset($constraints) ? $oDb->quote($constraints) : '\'\'';
         $grouping = $mVarValue['grouping'];
         $sVarGroupingQuoted = isset($grouping) ? $oDb->quote($grouping) : '\'\'';
-        $pos = $mVarValue['pos'];
+        $pos = isset($mVarValue['pos']) ? $mVarValue['pos'] : null;
         $sVarPosQuoted = isset($pos) ? $oDb->quote($pos) : '\'\'';
 
         $sNewOXIDdQuoted = $oDb->quote(\oxUtilsObject::getInstance()->generateUID());
