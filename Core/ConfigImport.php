@@ -82,8 +82,8 @@ class ConfigImport extends CommandBase
             $this->runShopConfigImportForAllShops($aShops);
             $this->getDebugOutput()->writeLn("done");
         } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
-            $this->getDebugOutput()->writeLn("Could not parse a YAML File.");
-            $this->getDebugOutput()->writeLn($e->getMessage());
+            $this->output->writeLn("Could not parse a YAML File.");
+            $this->output->writeLn($e->getMessage());
             exit(1);
         } catch (\oxFileException $oEx) {
             $this->getDebugOutput()->writeLn("Could not complete");
