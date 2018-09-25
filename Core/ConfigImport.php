@@ -80,19 +80,19 @@ class ConfigImport extends CommandBase
             $aMetaConfig = $this->readConfigValues($this->getShopsConfigFileName());
             $aShops = $aMetaConfig['shops'];
             $this->runShopConfigImportForAllShops($aShops);
-            $this->getDebugOutput()->writeLn("done");
+            $this->output->writeLn("done");
         } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
             $this->output->writeLn("Could not parse a YAML File.");
             $this->output->writeLn($e->getMessage());
             exit(1);
         } catch (\oxFileException $oEx) {
-            $this->getDebugOutput()->writeLn("Could not complete");
-            $this->getDebugOutput()->writeLn($oEx->getMessage());
+            $this->output->writeLn("Could not complete");
+            $this->output->writeLn($oEx->getMessage());
             exit(2);
         } catch (\RuntimeException $e) {
-            $this->getDebugOutput()->writeLn("Could not complete.");
-            $this->getDebugOutput()->writeLn($e->getMessage());
-            $this->getDebugOutput()->writeLn($e->getTraceAsString());
+            $this->output->writeLn("Could not complete.");
+            $this->output->writeLn($e->getMessage());
+            $this->output->writeLn($e->getTraceAsString());
             exit(3);
         }
     }
