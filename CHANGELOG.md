@@ -1,5 +1,9 @@
 # Changelog for Config Importer
 
+## 4.0.17 
+### update
+* symfony/yaml v3
+
 ## 4.0.16 
 ### fixed
 * fixed php warning
