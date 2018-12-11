@@ -40,7 +40,7 @@ $aModule = [
         'en' => 'Tools to export, backup and import OXID eShop modules configuration data.',
     ],
     'thumbnail'   => 'out/pictures/oxpsmodulesconfig.png',
-    'version'     => '4.0.17',
+    'version'     => '5.0.0',
     'author'      => 'OXID Professional Services',
     'url'         => 'http://www.oxid-esales.com',
     'email'       => 'info@oxid-esales.com',
@@ -56,6 +56,6 @@ $aModule = [
         'onDeactivate' => 'OxidProfessionalServices\\ModulesConfig\\Core\\Module::onDeactivate',
     ],
     'settings' => [
-        [ 'group' => 'main', 'name' => 'OXPS_MODULESCONFIG_SETTING_CONFIGURATION_DIRECTORY', 'type' => 'str', 'value' => 'configurations' ]
+        [ 'group' => 'main', 'name' => 'OXPS_MODULESCONFIG_SETTING_CONFIGURATION_DIRECTORY', 'type' => 'str', 'value' => '../../../../configurations' ]
     ]
 ];
