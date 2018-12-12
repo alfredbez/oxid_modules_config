@@ -1,0 +1,9 @@
+services:
+  oxid_professional_services.modulesconfig.import.command:
+    class: OxidProfessionalServices\ModulesConfig\Command\ImportCommand
+    tags:
+    - { name: 'console.command' }
+  oxid_professional_services.modulesconfig.export.command:
+    class: OxidProfessionalServices\ModulesConfig\Command\ExportCommand
+    tags:
+    - { name: 'console.command' }
