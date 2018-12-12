@@ -1,9 +1,12 @@
 # Changelog for Config Importer
 
+## 5.1.0 
+### add
+* added services yaml to register console command
+
 ## 5.0.0 
 ### update
 * changed default configuration path because most projects do not want to have configuration not within the modules folder
-
 
 ## 4.0.17 
 ### update
