@@ -82,7 +82,7 @@ abstract class CommandBase
         $aConfigIntersect = array_intersect($this->aConfiguration['excludeFields'], $this->aConfiguration['envFields']);
         if (count($aConfigIntersect) > 0) {
             $this->getDebugOutput()->writeLn(
-                "CAUTION: excludeFields and envFields are not disjoint! " . var_dump($aConfigIntersect)
+                "CAUTION: excludeFields and envFields are not disjoint! " . print_r($aConfigIntersect, true);
             );
         }
     }
