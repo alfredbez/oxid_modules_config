@@ -460,7 +460,7 @@ class ConfigImport extends CommandBase
             // merge from aModulesOverwrite into aDefaultModuleSettings
             $aMergedModuleSettings = array();
             foreach ($aDefaultModuleSettings as $sName => $aDefaultModuleSetting) {
-                if (array_key_exists($sName, $aModuleOverride)) {
+                if (is_array($aModuleOverride) && array_key_exists($sName, $aModuleOverride)) {
                     //print "module:$sModuleId $sName $aModuleOverride\n";
                     $aDefaultModuleSetting['value'] = $aModuleOverride[$sName];
                     unset($aModuleOverride[$sName]);
