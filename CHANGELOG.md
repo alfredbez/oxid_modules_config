@@ -1,5 +1,9 @@
 # Changelog for Config Importer
 
+## 6.0.0 
+### changed
+* settings not listed in module's metadata will not be exported
+
 ## 5.2.0 
 ### changed
 * moved to module internals fix command (instead of oxid console)
