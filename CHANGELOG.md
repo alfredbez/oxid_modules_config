@@ -1,5 +1,10 @@
 # Changelog for Config Importer
 
+## 5.2.0 
+### changed
+* moved to module internals fix command (instead of oxid console)
+* additinal check see https://github.com/OXIDprojects/oxid_modules_config/pull/20
+
 ## 5.1.0 
 ### add
 * added services yaml to register console command
