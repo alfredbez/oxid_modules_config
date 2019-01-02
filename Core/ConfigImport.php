@@ -27,7 +27,7 @@
 namespace OxidProfessionalServices\ModulesConfig\Core;
 
 use OxidEsales\Eshop\Core\DatabaseProvider;
-use OxidProfessionalServices\OxidConsole\Core\Module\ModuleStateFixer;
+use OxidCommunity\ModuleInternals\Core\ModuleStateFixer;
 use OxidProfessionalServices\OxidConsole\Core\ShopConfig;
 use OxidEsales\Eshop\Core\Registry;
 
