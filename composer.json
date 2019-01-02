@@ -7,7 +7,7 @@
   "require": {
     "symfony/yaml": "^2.0 || ^3.0",
     "oxid-esales/oxideshop-ce": "^v6.0.0",
-    "oxid-professional-services/oxid-console": "^v5.0.2"
+    "oxid-community/moduleinternals": "^2.0 || ^1.5"
   },
   "extra": {
     "oxideshop": {
