@@ -455,12 +455,12 @@ class ConfigImport extends CommandBase
                 $aDefaultModuleSettings[$aSetting['name']] = $aSetting;
             }
             // array ($key => $value)
-            $aModuleOverride = isset($allModulesConfigFromYaml[$sModuleId]) ? $allModulesConfigFromYaml[$sModuleId] : array();
+            $aModuleOverride = isset($allModulesConfigFromYaml[$sModuleId]) && is_array($allModulesConfigFromYaml[$sModuleId]) ? $allModulesConfigFromYaml[$sModuleId] : array();
 
             // merge from aModulesOverwrite into aDefaultModuleSettings
             $aMergedModuleSettings = array();
             foreach ($aDefaultModuleSettings as $sName => $aDefaultModuleSetting) {
-                if (is_array($aModuleOverride) && array_key_exists($sName, $aModuleOverride)) {
+                if (array_key_exists($sName, $aModuleOverride)) {
                     //print "module:$sModuleId $sName $aModuleOverride\n";
                     $aDefaultModuleSetting['value'] = $aModuleOverride[$sName];
                     unset($aModuleOverride[$sName]);
