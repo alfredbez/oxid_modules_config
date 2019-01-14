@@ -1,12 +1,10 @@
 # Changelog for Config Importer
 
-## 6.1.0
-### changed
-* use boolean syntax for module settings in export
-
 ## 6.0.0 
 ### changed
+* use boolean syntax for module settings in export
 * settings not listed in module's metadata will not be exported
+* fix importing settings that do not exist in metadata
 
 ## 5.2.0 
 ### changed
