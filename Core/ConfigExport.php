@@ -256,11 +256,6 @@ class ConfigExport extends CommandBase
                     }
                     if (count($aModuleConfig) == 0) {
                         unset($aModuleConfigs[$sModuleId]);
-                    } else {
-                        if ($sDefaultType == 'bool') {
-                            $mCurrentValue = (bool) $mCurrentValue;
-                            $aModuleConfig[$sVarName] = $mCurrentValue;
-                        }
                     }
                 }
             }
@@ -670,9 +665,9 @@ class ConfigExport extends CommandBase
     protected function convertToBool($mDefaultValue)
     {
         if ($mDefaultValue === 'false') {
-            $mDefaultValue = '';
+            $mDefaultValue = false;
         } else {
-            $mDefaultValue = $mDefaultValue ? '1' : '';
+            $mDefaultValue = $mDefaultValue ? true : false;
         }
         return $mDefaultValue;
     }
