@@ -332,7 +332,6 @@ class ConfigImport extends CommandBase
         $aModulePathsClean = $modulesKnownByPath;
         foreach ($modulesKnownByPath as $sModuleId => $path) {
             if (!isset($aModuleVersions[$sModuleId])) {
-                $isDisabled = array_search($sModuleId,$aDisabledModules);
                 if (!$oModule->load($sModuleId)) {
                     unset ($aModulePathsClean[$sModuleId]);
                     $this->output->writeLn(
@@ -340,6 +339,7 @@ class ConfigImport extends CommandBase
                     );
                     $oConfig->saveShopConfVar('aarr','aModulePaths',$aModulePathsClean);
                 }
+                $isDisabled = in_array($sModuleId, $aDisabledModules);
                 if (!$isDisabled) {
                     $this->output->writeLn(
                         "[WARN] disabling {$sModuleId} because it is not part of the import but installed on this system, please create a new export"
