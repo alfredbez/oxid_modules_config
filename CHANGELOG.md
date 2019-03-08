@@ -1,5 +1,9 @@
 # Changelog for Config Importer
 
+## 6.0.1 
+### fixed
+* first disabled module during the import was causing warnings as it was not detected as beeing disabled
+
 ## 6.0.0 
 ### changed
 * use boolean syntax for module settings in export
