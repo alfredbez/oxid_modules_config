@@ -262,7 +262,7 @@ class ConfigImport extends CommandBase
             //fall back to a empty array
             $aDisabledModules = [];
         }
-        $disabledModulesBeforeImport = array_fill_keys($aDisabledModules, 1);
+        $disabledModulesBeforeImport = array_fill_keys($aDisabledModules, true);
         $modulesKnownBeforeImport = $oConfig->getConfigParam('aModuleVersions');
 
         $aModuleVersions = $this->getConfigValue($aConfigValues,'aModuleVersions');
