@@ -262,8 +262,7 @@ class ConfigImport extends CommandBase
             //fall back to a empty array
             $aDisabledModules = [];
         }
-        $disabledModulesBeforeImport = array_flip($aDisabledModules);
-        $disabledModulesBeforeImport = array_flip($disabledModulesBeforeImport);
+        $disabledModulesBeforeImport = array_fill_keys($aDisabledModules, true);
         $modulesKnownBeforeImport = $oConfig->getConfigParam('aModuleVersions');
 
         $aModuleVersions = $this->getConfigValue($aConfigValues,'aModuleVersions');
@@ -341,10 +340,12 @@ class ConfigImport extends CommandBase
                 }
                 $isDisabled = in_array($sModuleId, $aDisabledModules);
                 if (!$isDisabled) {
+                    if ($disabledModulesBeforeImport[$sModuleId]) {
+                        $aDisabledModules[] = $sModuleId;
+                    }
                     $this->output->writeLn(
-                        "[WARN] disabling {$sModuleId} because it is not part of the import but installed on this system, please create a new export"
+                        "[WARN] {$sModuleId} it is not part of the import but installed on this system, please create a new export"
                     );
-                    $aDisabledModules[] = $sModuleId;
                 }
             }
         }
