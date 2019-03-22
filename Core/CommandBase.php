@@ -13,7 +13,7 @@ abstract class CommandBase
     /**
      * @var string The environment we are working on.
      */
-    protected $sEnv = null;
+    protected $sEnv = 'development';
 
     /**
      * @var OutputInterface $output The output stream, where to write the configuration.
@@ -74,8 +74,6 @@ abstract class CommandBase
     {
         if ($this->input->getOption('env')) {
             $this->sEnv = $this->input->getOption('env');
-        } else {
-            $this->sEnv = 'development';
         }
         $this->setDebugOutput();
         $this->initConfiguration();
