@@ -63,7 +63,7 @@ class ImportCommand extends Command
 
             //workaround for issue in oxid see https://github.com/OXID-eSales/oxideshop_ce/pull/413
             $utilsObject = \oxUtilsObject::getInstance();
-            $utilsObject->setModuleVar('aModuleFiles',null);
+            $utilsObject->setModuleVar('aModuleFiles', null);
         }
         $oConfigExport = oxNew(ConfigImport::class, $output, $input);
         $oConfigExport->executeConsoleCommand();
