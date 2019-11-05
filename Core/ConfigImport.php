@@ -29,6 +29,7 @@ namespace OxidProfessionalServices\ModulesConfig\Core;
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidCommunity\ModuleInternals\Core\ModuleStateFixer;
 use OxidProfessionalServices\OxidConsole\Core\ShopConfig;
+use OxidEsales\Eshop\Application\Controller\Admin\ShopLicense;
 use OxidEsales\Eshop\Core\Registry;
 
 /**
@@ -80,6 +81,7 @@ class ConfigImport extends CommandBase
             $aMetaConfig = $this->readConfigValues($this->getShopsConfigFileName());
             $aShops = $aMetaConfig['shops'];
             $this->runShopConfigImportForAllShops($aShops);
+            $this->generateOxserial();
             $this->output->writeLn("done");
         } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
             $this->output->writeLn("Could not parse a YAML File.");
@@ -123,6 +125,19 @@ class ConfigImport extends CommandBase
         $this->output->writeLn("Importing config for shop $sShop");
 
         $this->importConfigValues($aResult);
+    }
+
+    /**
+     * Generates OXSERIAL stored in oxshops table from aSerials (from oxconfig table)
+     */
+    protected function generateOxserial()
+    {
+        $licence = oxNew(ShopLicense::class);
+        Registry::getSession()->setVariable('malladmin', true);
+
+        $licence->updateShopSerial();
+
+        $this->output->writeLn('generated OXSERIAL');
     }
 
     /**
