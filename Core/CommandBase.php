@@ -13,7 +13,7 @@ abstract class CommandBase
     /**
      * @var string The environment we are working on.
      */
-    protected $sEnv = 'development';
+    protected $sEnv;
 
     /**
      * @var OutputInterface $output The output stream, where to write the configuration.
@@ -72,9 +72,13 @@ abstract class CommandBase
      */
     protected function init()
     {
-        if ($this->input->getOption('env')) {
-            $this->sEnv = $this->input->getOption('env');
+        if (!$this->input->getOption('env')) {
+            $this->output->writeLn('CAUTION: no environment given, please specify it like so:');
+            $this->output->writeLn('config:[import|export] --env=<ENVIRONMENT_NAME>');
+            $this->output->writeLn('aborting');
+            exit;
         }
+        $this->sEnv = $this->input->getOption('env');
         $this->setDebugOutput();
         $this->initConfiguration();
         $aConfigIntersect = array_intersect($this->aConfiguration['excludeFields'], $this->aConfiguration['envFields']);
