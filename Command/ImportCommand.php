@@ -65,8 +65,8 @@ class ImportCommand extends Command
             $utilsObject = \oxUtilsObject::getInstance();
             $utilsObject->setModuleVar('aModuleFiles', null);
         }
-        $oConfigExport = oxNew(ConfigImport::class, $output, $input);
-        $oConfigExport->executeConsoleCommand();
+        $oConfigImport = oxNew(ConfigImport::class, $output, $input);
+        $oConfigImport->executeConsoleCommand();
     }
 
 }
