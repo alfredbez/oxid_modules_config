@@ -20,6 +20,7 @@ return array(
         'sParcelService',
         'blUseContentCaching',
         'iTimeToUpdatePrices',
+        'OXSERIAL', // generated single serial number from all aSerials, will be generated during import
         //timestamp to check if cron jobs must be executed
         'iFailedOnlineCallsCount',
         //sometimes good to not exclude this to have value be restored to 0 on import, but on the other hand
@@ -38,7 +39,6 @@ return array(
     //environment specific fields
     'envFields'                     => array(
         'aSerials', //oxid serial numbers. Must be different on live system.
-        'OXSERIAL', // generated single serial number from all aSerials
         'sMallShopURL',
         'sMallSSLShopURL',
         'blCheckTemplates', //sets if templates should be recompililed on change good in develop env
