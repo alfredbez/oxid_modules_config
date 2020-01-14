@@ -3,7 +3,7 @@
   "description": "OXID core and module configurations importer and exporter",
   "type": "oxideshop-module",
   "keywords": ["oxid", "modules", "eShop", "oxconfig", "config", "export"],
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-only",
   "require": {
     "symfony/yaml": "^2.0 || ^3.0",
     "oxid-esales/oxideshop-ce": "^v6.0.0",
