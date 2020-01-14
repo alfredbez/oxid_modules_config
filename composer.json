@@ -11,7 +11,7 @@
   },
   "require-dev": {
     "oxid-community/moduleinternals": "^3.0@beta"
-  }
+  },
   "extra": {
     "oxideshop": {
       "target-directory": "oxps/modulesconfig"
