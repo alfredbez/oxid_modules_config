@@ -9,6 +9,9 @@
     "oxid-esales/oxideshop-ce": "^v6.0.0",
     "oxid-community/moduleinternals": "> 1.5"
   },
+  "require-dev": {
+    "oxid-community/moduleinternals": "^3.0@beta"
+  }
   "extra": {
     "oxideshop": {
       "target-directory": "oxps/modulesconfig"
