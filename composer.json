@@ -10,7 +10,7 @@
     "oxid-community/moduleinternals": "> 1.5"
   },
   "require-dev": {
-    "oxid-community/moduleinternals": "^3.0@beta"
+    "oxid-community/moduleinternals": "^3.0@alpha"
   },
   "extra": {
     "oxideshop": {
