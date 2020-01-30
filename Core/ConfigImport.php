@@ -295,7 +295,6 @@ class ConfigImport extends CommandBase
             $oldVersion = $modulesKnownBeforeImport[$sModuleId];
             $versionToImport = $aModuleVersions[$sModuleId];
 
-
             $gt = version_compare($versionToImport, $oldVersion,'>');
             if ($gt) {
                 $updatedModules[$sModuleId] = $sModuleId;
@@ -653,6 +652,9 @@ class ConfigImport extends CommandBase
     protected function runShopConfigImportForAllShops($aShops)
     {
         foreach ($aShops as $sShop => $sFileName) {
+            if (!$this->allShops && !in_array($sShop, $this->shops)) {
+                continue;
+            }
             $this->sShopId = $sShop;
             $this->storedVarTypes = $this->getStoredVarTypes();
             $this->runShopConfigImportForOneShop($sShop, $sFileName);

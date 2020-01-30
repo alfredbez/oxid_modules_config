@@ -11,6 +11,16 @@ use Symfony\Component\Console\Output\NullOutput;
 abstract class CommandBase
 {
     /**
+     * @var bool Should the command run for all shops?
+     */
+    protected $allShops = true;
+
+    /**
+     * @var array Shop-IDs the command has to run on
+     */
+    protected $shops = [];
+
+    /**
      * @var string The environment we are working on.
      */
     protected $sEnv;
@@ -79,6 +89,10 @@ abstract class CommandBase
             exit;
         }
         $this->sEnv = $this->input->getOption('env');
+        if ($this->input->getOption('shop')) {
+            $this->shops = array_map('intval', explode(',', $this->input->getOption('shop')));
+            $this->allShops = false;
+        }
         $this->setDebugOutput();
         $this->initConfiguration();
         $aConfigIntersect = array_intersect($this->aConfiguration['excludeFields'], $this->aConfiguration['envFields']);
