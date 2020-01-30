@@ -109,7 +109,7 @@ abstract class CommandBase
         $sDir = null;
 
         if ($this->sEnv) {
-            $sDir = $this->aEnvConfig["dir"];
+            $sDir = isset($this->aEnvConfig["dir"]) ? $this->aEnvConfig["dir"] : false;
             if (!$sDir) {
                 $sDir = $this->getConfigDir() . '/' . $this->sEnv;
             }
@@ -153,7 +153,7 @@ abstract class CommandBase
         $aAllEnvConfigs       = $this->aConfiguration['env'];
         $sFilename            = $sConfigurationsDir . 'defaultconfig' . DIRECTORY_SEPARATOR . 'defaults.yaml';
         $this->aDefaultConfig = $this->readConfigValues($sFilename, 'yaml');
-        $aEnvConfig           = $aAllEnvConfigs[$this->sEnv];
+        $aEnvConfig           = isset($aAllEnvConfigs[$this->sEnv]) ? $aAllEnvConfigs[$this->sEnv] : null;
         $this->aEnvConfig     = $aEnvConfig;
     }
 
