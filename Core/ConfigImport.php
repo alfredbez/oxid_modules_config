@@ -157,7 +157,7 @@ class ConfigImport extends CommandBase
                     if (is_array($aBaseValue)) {
                         if ($key == 'module') {
                             foreach ($mOverriderValue as $sModuleId => $aModuleInfo) {
-                                if ($aBaseValue[$sModuleId]) {
+                                if (isset($aBaseValue[$sModuleId])) {
                                     $aBaseValue[$sModuleId] = array_merge($aBaseValue[$sModuleId], $aModuleInfo);
                                 } else {
                                     $aBaseValue[$sModuleId] = $aModuleInfo;
