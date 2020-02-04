@@ -27,33 +27,33 @@
 $sLangName = 'Deutsch';
 
 $aLang = array(
-    'charset'                                => 'ISO-8859-15', // Supports DE chars like: ä, ü, ö, etc.
+    'charset'                                => 'UTF-8', // Supports DE chars like: ï¿½, ï¿½, ï¿½, etc.
     'oxpsmodulesconfig'                      => 'Modulkonfigurations-Im-/Exporter',
 
     // Common dashboard translations
     'OXPS_MODULESCONFIG_DASHBOARD'           => 'Modulkonfigurations-Export und -Import',
-    'OXPS_MODULESCONFIG_NO_MODULES'          => 'Keine Module für Konfigurationsexport oder -import verfügbar',
+    'OXPS_MODULESCONFIG_NO_MODULES'          => 'Keine Module fï¿½r Konfigurationsexport oder -import verfï¿½gbar',
 
     // Form translations
-    'OXPS_MODULESCONFIG_MODULES'             => 'Module für Export oder Import auswählen.',
-    'OXPS_MODULESCONFIG_MODULES_HELP'        => 'Halten Sie "Strg" gedrückt und wählen Sie dann Module, die von der Aktion ' .
+    'OXPS_MODULESCONFIG_MODULES'             => 'Module fï¿½r Export oder Import auswï¿½hlen.',
+    'OXPS_MODULESCONFIG_MODULES_HELP'        => 'Halten Sie "Strg" gedrï¿½ckt und wï¿½hlen Sie dann Module, die von der Aktion ' .
                                                 'zum Export oder Import der Konfigurationsdaten betroffen sein sollen.',
-    'OXPS_MODULESCONFIG_ALL'                 => 'Alle auswählen',
-    'OXPS_MODULESCONFIG_NONE'                => 'Alle abwählen',
-    'OXPS_MODULESCONFIG_SETTINGS'            => 'Einstellung für Export oder import wählen',
-    'OXPS_MODULESCONFIG_SETTINGS_HELP'       => 'Bitte wählen Sie Einstellungs-Typen ab, die von der Aktion zum Export oder ' .
+    'OXPS_MODULESCONFIG_ALL'                 => 'Alle auswï¿½hlen',
+    'OXPS_MODULESCONFIG_NONE'                => 'Alle abwï¿½hlen',
+    'OXPS_MODULESCONFIG_SETTINGS'            => 'Einstellung fï¿½r Export oder import wï¿½hlen',
+    'OXPS_MODULESCONFIG_SETTINGS_HELP'       => 'Bitte wï¿½hlen Sie Einstellungs-Typen ab, die von der Aktion zum Export oder ' .
                                                 'Import der Konfiguration nicht betoffen sein sollen.',
     'OXPS_MODULESCONFIG_EXPORT'              => 'Export',
-    'OXPS_MODULESCONFIG_EXPORT_HELP'         => 'Alle ausgewählten Einstellungen der ausgewählten Module werden im JSON-Format ' .
+    'OXPS_MODULESCONFIG_EXPORT_HELP'         => 'Alle ausgewï¿½hlten Einstellungen der ausgewï¿½hlten Module werden im JSON-Format ' .
                                                 'exportiert und zum Download angeboten.',
     'OXPS_MODULESCONFIG_BACKUP'              => 'Sicherung',
-    'OXPS_MODULESCONFIG_BACKUP_HELP'         => 'Alle ausgewählten Einstellungen der ausgewählten Module werden im JSON-Format ' .
+    'OXPS_MODULESCONFIG_BACKUP_HELP'         => 'Alle ausgewï¿½hlten Einstellungen der ausgewï¿½hlten Module werden im JSON-Format ' .
                                                 'exportiert und im Dateisystem unter "export/modules_config/" abgelegt.',
-    'OXPS_MODULESCONFIG_FILE'                => 'Wählen Sie eine JSON-Datei für den Import',
-    'OXPS_MODULESCONFIG_FILE_HELP'           => 'Diese Datei muss ein gültiges JSON-Format mit OXID Modulkonfigurationsdaten enthalten.',
+    'OXPS_MODULESCONFIG_FILE'                => 'Wï¿½hlen Sie eine JSON-Datei fï¿½r den Import',
+    'OXPS_MODULESCONFIG_FILE_HELP'           => 'Diese Datei muss ein gï¿½ltiges JSON-Format mit OXID Modulkonfigurationsdaten enthalten.',
     'OXPS_MODULESCONFIG_IMPORT'              => 'Import',
-    'OXPS_MODULESCONFIG_IMPORT_HELP'         => 'Alle ausgewählten Einstellungen der ausgewählten Module werden durch die ' .
-                                                'entsprechenden Werte aus der importierten JSON-Datei überschrieben. ' .
+    'OXPS_MODULESCONFIG_IMPORT_HELP'         => 'Alle ausgewï¿½hlten Einstellungen der ausgewï¿½hlten Module werden durch die ' .
+                                                'entsprechenden Werte aus der importierten JSON-Datei ï¿½berschrieben. ' .
                                                 'Ein automatisches Backup wird vor dem Import angelegt.',
 
     // Module settings translations
@@ -61,38 +61,38 @@ $aLang = array(
     'OXPS_MODULESCONFIG_SETTING_EXTEND'      						  => 'Erweiterte Klassen',
     'OXPS_MODULESCONFIG_SETTING_FILES'       						  => 'Moduldateien',
     'OXPS_MODULESCONFIG_SETTING_TEMPLATES'   						  => 'Templates',
-    'OXPS_MODULESCONFIG_SETTING_BLOCKS'      			 			  => 'Blöcke',
+    'OXPS_MODULESCONFIG_SETTING_BLOCKS'      			 			  => 'Blï¿½cke',
     'OXPS_MODULESCONFIG_SETTING_SETTINGS'    			 			  => 'Einstellungen',
     'OXPS_MODULESCONFIG_SETTING_EVENTS'      			  			  => 'Events',
 	'SHOP_MODULE_OXPS_MODULESCONFIG_SETTING_CONFIGURATION_DIRECTORY'  => 'Pfad zum Konfigurationsverzeichnis relativ zum Verzeichnis "modules/oxps/modulesconfig"',		
 
     // Errors
-    'OXPS_MODULESCONFIG_ERR_NO_MODULES'      => 'Bitte wählen Sie mindestens ein Modul.',
-    'OXPS_MODULESCONFIG_ERR_INVALID_MODULE'  => 'Ungültiges Modul ausgewählt! Bitte laden Sie die Seite neu und versuchen Sie es noch einmal.',
-    'OXPS_MODULESCONFIG_ERR_NO_SETTINGS'     => 'Bitte wählen Sie mindestens eine Art von Einstellungen aus.',
-    'OXPS_MODULESCONFIG_ERR_INVALID_SETTING' => 'Ungültige Einstellung ausgewählt! Bitte laden Sie die Seite neu und versuchen Sie es noch einmal.',
-    'OXPS_MODULESCONFIG_ERR_INVALID_ACTION'  => 'Ungültige Anfrage. Bitte versuchen Sie es noch einmal.',
-    'OXPS_MODULESCONFIG_ERR_EXPORT_FAILED'   => 'Export fehlgeschlagen. Bitte versuchen Sie es später noch einmal.',
+    'OXPS_MODULESCONFIG_ERR_NO_MODULES'      => 'Bitte wï¿½hlen Sie mindestens ein Modul.',
+    'OXPS_MODULESCONFIG_ERR_INVALID_MODULE'  => 'Ungï¿½ltiges Modul ausgewï¿½hlt! Bitte laden Sie die Seite neu und versuchen Sie es noch einmal.',
+    'OXPS_MODULESCONFIG_ERR_NO_SETTINGS'     => 'Bitte wï¿½hlen Sie mindestens eine Art von Einstellungen aus.',
+    'OXPS_MODULESCONFIG_ERR_INVALID_SETTING' => 'Ungï¿½ltige Einstellung ausgewï¿½hlt! Bitte laden Sie die Seite neu und versuchen Sie es noch einmal.',
+    'OXPS_MODULESCONFIG_ERR_INVALID_ACTION'  => 'Ungï¿½ltige Anfrage. Bitte versuchen Sie es noch einmal.',
+    'OXPS_MODULESCONFIG_ERR_EXPORT_FAILED'   => 'Export fehlgeschlagen. Bitte versuchen Sie es spï¿½ter noch einmal.',
     'OXPS_MODULESCONFIG_ERR_BACKUP_FAILED'   => 'Sicherung fehlgeschlagen. ' .
                                                 'Bitte stellen Sie sicher, dass der eShop-Ordner "export/" beschreibbar ist und versuchen Sie es noch einmal.',
 
     // File upload errors
-    'OXPS_MODULESCONFIG_ERR_NO_FILE'         => 'Bitte wählen Sie eine gültige Datei im JSON-Format für den Konfigurationsimport.',
-    'OXPS_MODULESCONFIG_ERR_FILE_SIZE'       => 'Die hochgeladene Datei ist zu groß. Bitte wenden Sie sich an Ihren Systemadministrator.',
-    'OXPS_MODULESCONFIG_ERR_UPLOAD_ERROR'    => 'Upload fehlgeschlagen. Bitte versuchen Sie es später noch einmal.',
-    'OXPS_MODULESCONFIG_ERR_FILE_TYPE'       => 'Dateiformat ungültig. Bitte wählen Sie eine Datei in JSON-Format, ' .
-                                                'die Modulkonfigurationsdaten enthält.',
-    'OXPS_MODULESCONFIG_ERR_CANNOT_READ'     => 'Die Datei konnte nicht gelesen werden. Bitte wählen Sie eine Datei in JSON-Format, ' .
-                                                'die Modulkonfigurationsdaten enthält.',
+    'OXPS_MODULESCONFIG_ERR_NO_FILE'         => 'Bitte wï¿½hlen Sie eine gï¿½ltige Datei im JSON-Format fï¿½r den Konfigurationsimport.',
+    'OXPS_MODULESCONFIG_ERR_FILE_SIZE'       => 'Die hochgeladene Datei ist zu groï¿½. Bitte wenden Sie sich an Ihren Systemadministrator.',
+    'OXPS_MODULESCONFIG_ERR_UPLOAD_ERROR'    => 'Upload fehlgeschlagen. Bitte versuchen Sie es spï¿½ter noch einmal.',
+    'OXPS_MODULESCONFIG_ERR_FILE_TYPE'       => 'Dateiformat ungï¿½ltig. Bitte wï¿½hlen Sie eine Datei in JSON-Format, ' .
+                                                'die Modulkonfigurationsdaten enthï¿½lt.',
+    'OXPS_MODULESCONFIG_ERR_CANNOT_READ'     => 'Die Datei konnte nicht gelesen werden. Bitte wï¿½hlen Sie eine Datei in JSON-Format, ' .
+                                                'die Modulkonfigurationsdaten enthï¿½lt.',
 
     // JSON data errors
-    'OXPS_MODULESCONFIG_ERR_EMPTY_DATA'      => 'Import-Daten nicht gefunden. Bitte wählen Sie eine Datei im JSON-Format, ' .
-                                                'die Modulkonfigurationsdaten enthält.',
-    'OXPS_MODULESCONFIG_ERR_INVALID_FORMAT'  => 'Datenformat der Import-Datei ungültig. Bitte wählen Sie eine Datei im JSON-Format, ' .
-                                                'die Modulkonfigurationsdaten enthält.',
-    'OXPS_MODULESCONFIG_ERR_SHOP_VERSION'    => 'Importdaten abgewiesen, da die Shop-Version nicht übereinstimmt.',
-    'OXPS_MODULESCONFIG_ERR_SHOP_EDITION'    => 'Importdaten abgewiesen, da die Shop-Edition nicht übereinstimmt.',
-    'OXPS_MODULESCONFIG_ERR_WRONG_SUBSHOP'   => 'Importdaten abgewiesen, da die Subshop-ID nicht übereinstimmt.',
+    'OXPS_MODULESCONFIG_ERR_EMPTY_DATA'      => 'Import-Daten nicht gefunden. Bitte wï¿½hlen Sie eine Datei im JSON-Format, ' .
+                                                'die Modulkonfigurationsdaten enthï¿½lt.',
+    'OXPS_MODULESCONFIG_ERR_INVALID_FORMAT'  => 'Datenformat der Import-Datei ungï¿½ltig. Bitte wï¿½hlen Sie eine Datei im JSON-Format, ' .
+                                                'die Modulkonfigurationsdaten enthï¿½lt.',
+    'OXPS_MODULESCONFIG_ERR_SHOP_VERSION'    => 'Importdaten abgewiesen, da die Shop-Version nicht ï¿½bereinstimmt.',
+    'OXPS_MODULESCONFIG_ERR_SHOP_EDITION'    => 'Importdaten abgewiesen, da die Shop-Edition nicht ï¿½bereinstimmt.',
+    'OXPS_MODULESCONFIG_ERR_WRONG_SUBSHOP'   => 'Importdaten abgewiesen, da die Subshop-ID nicht ï¿½bereinstimmt.',
 
     // Messages
     'OXPS_MODULESCONFIG_MSG_BACKUP_SUCCESS'  => 'Sicherung erfolgreich angelegt. ' .
