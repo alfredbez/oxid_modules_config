@@ -1,14 +1,23 @@
 # Changelog for Config Importer
 
-## 6.0.1 
-### fixed
-* first disabled module during the import was causing warnings as it was not detected as beeing disabled
+## 6.1.0 (only released as beta)
 
-## 6.0.0 
+### new
+
+* add a shop parameter to comand line to allow importing config of specific shop ids
+
+### fixed
+
+* encoding changed to utf8 to avoid issue with dd slider module
+
+## 6.0.0 (only beta)
 ### changed
 * use boolean syntax for module settings in export
 * settings not listed in module's metadata will not be exported
 * fix importing settings that do not exist in metadata
+
+### fixed
+* first disabled module during the import was causing warnings as it was not detected as beeing disabled
 
 ## 5.2.0 
 ### changed
