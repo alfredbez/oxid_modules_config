@@ -81,15 +81,15 @@ $aLang = array(
     'OXPS_MODULESCONFIG_ERR_FILE_SIZE'       => 'Die hochgeladene Datei ist zu groß. Bitte wenden Sie sich an Ihren Systemadministrator.',
     'OXPS_MODULESCONFIG_ERR_UPLOAD_ERROR'    => 'Upload fehlgeschlagen. Bitte versuchen Sie es später noch einmal.',
     'OXPS_MODULESCONFIG_ERR_FILE_TYPE'       => 'Dateiformat ungültig. Bitte wählen Sie eine Datei in JSON-Format, ' .
-        'die Modulkonfigurationsdaten enthält.',
+                                                'die Modulkonfigurationsdaten enthält.',
     'OXPS_MODULESCONFIG_ERR_CANNOT_READ'     => 'Die Datei konnte nicht gelesen werden. Bitte wählen Sie eine Datei in JSON-Format, ' .
-        'die Modulkonfigurationsdaten enthält.',
+                                                'die Modulkonfigurationsdaten enthält.',
 
     // JSON data errors
     'OXPS_MODULESCONFIG_ERR_EMPTY_DATA'      => 'Import-Daten nicht gefunden. Bitte wählen Sie eine Datei im JSON-Format, ' .
-        'die Modulkonfigurationsdaten enthält.',
+                                                'die Modulkonfigurationsdaten enthält.',
     'OXPS_MODULESCONFIG_ERR_INVALID_FORMAT'  => 'Datenformat der Import-Datei ungültig. Bitte wählen Sie eine Datei im JSON-Format, ' .
-        'die Modulkonfigurationsdaten enthält.',
+                                                'die Modulkonfigurationsdaten enthält.',
     'OXPS_MODULESCONFIG_ERR_SHOP_VERSION'    => 'Importdaten abgewiesen, da die Shop-Version nicht übereinstimmt.',
     'OXPS_MODULESCONFIG_ERR_SHOP_EDITION'    => 'Importdaten abgewiesen, da die Shop-Edition nicht übereinstimmt.',
     'OXPS_MODULESCONFIG_ERR_WRONG_SUBSHOP'   => 'Importdaten abgewiesen, da die Subshop-ID nicht übereinstimmt.',
