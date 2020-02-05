@@ -254,17 +254,20 @@ class ConfigImport extends CommandBase
         $_POST['shp'] = $sShopId;
         //just setting the correct shopId on this object because it is defaults to one load by config init.
         //doing so does not having any known effect.
-        $oConfig->getActiveShop()->setShopId($sShopId);
-
+        $shop = $oConfig->getActiveShop();
+        $shop->setShopId($sShopId);
+        //set the global config onject in oxid 6.1 
+        $shop->setConfig($oConfig);
         //we need a fresh instance here because
         //shopId calculator is private
         $freshUtilsObject = new \OxidEsales\Eshop\Core\UtilsObject();
-        Registry::set(\OxidEsales\Eshop\Core\UtilsObject::class,$freshUtilsObject);
-
+        Registry::set(\OxidEsales\Eshop\Core\UtilsObject::class, $freshUtilsObject);
+        //clear oxnew cache that may hold objects like Shop class from the first run 
+        $freshUtilsObject->resetInstanceCache();
 
         $ouo = Registry::get(\OxidEsales\Eshop\Core\UtilsObject::class);
         if($oConfig->getShopId() != $sShopId ||
-            $oConfig->getActiveShop()->getShopId() !=  $sShopId ||
+            $oConfig->getActiveShop()->getShopId() != $sShopId ||
             $ouo->getShopId() != $sShopId) {
             throw new \Exception("ShopId was not set correctly, this means shop internal have changed and import must be adapted");
         }
