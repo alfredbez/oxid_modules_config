@@ -256,6 +256,7 @@ class ConfigImport extends CommandBase
         //doing so does not having any known effect.
         $shop = $oConfig->getActiveShop();
         $shop->setShopId($sShopId);
+        $oConfig->setShopId($sShopId);
         //set the global config onject in oxid 6.1 
         $shop->setConfig($oConfig);
         //we need a fresh instance here because
