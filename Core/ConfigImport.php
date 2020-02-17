@@ -85,7 +85,9 @@ class ConfigImport extends CommandBase
             $aMetaConfig = $this->readConfigValues($this->getShopsConfigFileName());
             $aShops = $aMetaConfig['shops'];
             $this->runShopConfigImportForAllShops($aShops);
-            $this->generateOxserial();
+            if (Registry::getConfig()->getEdition() !== 'CE') {
+                $this->generateOxserial();
+            }
             $this->output->writeLn("done");
         } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
             $this->output->writeLn("Could not parse a YAML File.");

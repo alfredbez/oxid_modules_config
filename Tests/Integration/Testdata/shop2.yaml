@@ -1,0 +1,16 @@
+Meta:
+    sDefaultsVersion: "1.2"
+GeneralShopSettings:
+    sTheme: flow
+    aCurrencies:
+        - 'EUR@ 1.00@ ,@ .@ €@ 2'
+module:
+    oxps/modulesconfig:
+        moduleVariable: 'foobar'
+theme:
+    flow:
+        aDetailImageSizes:
+            oxpic1: '123*456'
+            oxpic2: '456*123'
+oxshops:
+    OXNAME: 'Shop Two'

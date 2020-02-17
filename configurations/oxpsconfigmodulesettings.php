@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'dir'                           => getShopBasePath() . '/../configurations',
+    'dir'                           => '/root/OXID/source/modules/oxps/modulesconfig/configurations',
     'type'                          => 'yaml',
     'executeModuleActivationEvents' => true,
     //config fields that should never ever go to the config export
@@ -87,19 +87,19 @@ return array(
     'env'                           => array(
         /* map other environments to existing ones when directory names do not match env. names.
            do NOT list every environment here, only aliases should be defined here
-           default is 
+           default is
            dir' => getShopBasePath() . '/modules/oxps/modulesconfig/configurations/$env'
         */
 
         /* map other environments to existing ones */
         'development'   => array(
-            'dir' => getShopBasePath() . '/../configurations/development',
+            'dir' => '/root/OXID/source/modules/oxps/modulesconfig/configurations/development',
         ),
         'merge-request' => array(
-            'dir' => getShopBasePath() . '/../configurations/integration',
+            'dir' => '/root/OXID/source/modules/oxps/modulesconfig/configurations/integration',
         ),
         'testing'       => array(
-            'dir' => getShopBasePath() . '/../configurations/testing',
+            'dir' => '/root/OXID/source/modules/oxps/modulesconfig/configurations/testing',
         )
     )
 );

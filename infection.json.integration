@@ -1,0 +1,21 @@
+{
+    "phpUnit": {
+        "configDir": "./Tests/Integration/"
+    },
+    "bootstrap": "./Tests/Integration/bootstrap.php",
+    "timeout": 10,
+    "source": {
+        "directories": [
+            "/srv/Core"
+        ],
+        "excludes": [
+            "Parser"
+        ]
+    },
+    "logs": {
+        "text": "infection-integration.log"
+    },
+    "mutators": {
+        "@default": true
+    }
+}

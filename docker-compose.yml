@@ -1,0 +1,26 @@
+version: '3'
+services:
+  php:
+    image: oxidesales/oxideshop-docker-php:7.2
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+      - .:/srv
+    working_dir: /srv
+    environment:
+      CI_SYSTEM: local_ci
+      COMPOSER_NO_INTERACTION: 1
+      OXID: 6.2-rc
+      DB_HOST: db
+      OXID_PATH: /root/OXID/source/
+
+  db:
+    image: mariadb:10.2.24
+    ports:
+      - 13306:3306
+
+    environment:
+      MYSQL_DATABASE: oxid
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'

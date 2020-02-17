@@ -10,7 +10,9 @@
     "oxid-community/moduleinternals": "> 1.5"
   },
   "require-dev": {
-    "oxid-community/moduleinternals": "^3.0@alpha"
+    "oxid-community/moduleinternals": "^3.0@alpha",
+    "oxid-professional-services/install-oxid-for-module": "^0.2.6",
+    "phpunit/phpunit": "^8.5"
   },
   "extra": {
     "oxideshop": {

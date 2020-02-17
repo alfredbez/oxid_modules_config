@@ -1,0 +1,5 @@
+shops:
+    1: /shop1.yaml
+    2: /shop2.yaml
+Meta:
+    sDefaultsVersion: '1.2'
